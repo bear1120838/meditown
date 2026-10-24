@@ -1,0 +1,718 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>메디타운 시연 홈페이지</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: corporate multi-level site (header + menu button, deep-blue sub banner with Medikong, left sub-menu, content), single light brand look on purpose. */
+:root{
+  color-scheme: light;
+  --blue:#1E90FF; --blue-d:#0B6FD6; --green:#32CD32; --greenl:#90EE90; --sky:#87CEEB; --skyl:#87CEFA;
+  --deep:#003366; --ink:#333333; --muted:#566779; --line:#DCE7F0; --bg:#F6FAFD; --skybg:#EEF8FD; --greenbg:#EEFBEE;
+  --trust:#1B7F4B; --trustbg:#E7F7EE; --warn:#7A5600; --warnbg:#FFF3D1; --danger:#B42318; --white:#FFFFFF;
+  --f:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;cursor:pointer}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{color:var(--deep);margin:0;text-wrap:balance}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto}
+svg.i{flex:none;display:block}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--white);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:var(--white)}
+.hdr{display:flex;align-items:center;justify-content:space-between;height:72px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .mk{width:38px;height:38px;border-radius:11px;background:var(--blue);display:grid;place-items:center;position:relative}
+.logo .mk::after{content:"";position:absolute;right:-3px;top:-3px;width:11px;height:11px;border-radius:50%;background:var(--green);border:2px solid var(--white)}
+.logo b{display:block;font-size:19px;letter-spacing:.06em;font-weight:900;color:var(--deep);line-height:1.05}
+.logo small{font-size:11px;color:var(--muted)}
+.hr{display:flex;gap:10px;align-items:center;position:relative}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:10px 18px;font-weight:700;font-size:14px;min-height:44px;border:1.5px solid var(--deep);background:var(--white);color:var(--deep);cursor:pointer}
+.pill.b{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.hamb{width:46px;height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--white);display:grid;place-items:center;color:var(--deep);cursor:pointer}
+.hamb[aria-expanded="true"]{background:var(--deep);border-color:var(--deep);color:var(--white)}
+.mega{position:absolute;right:0;top:100%;padding-top:10px;width:min(380px,calc(100vw - 32px))}
+.mega .in{background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 44px rgba(0,51,102,.18);padding:10px}
+.mega .g{padding:12px 14px;border-bottom:1px solid #EEF3F8;display:flex;flex-direction:column;gap:6px}
+.mega .g > a{font-size:17px;font-weight:700;color:var(--deep)}
+.mega .g span{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.mega .g span a:hover{color:var(--blue)}
+.mega .last{display:flex;align-items:center;gap:12px;padding:12px 6px 4px}
+
+/* buttons */
+.btn{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:12px;font-weight:700;font-size:16px;border:0;cursor:pointer;min-height:48px}
+.b-blue{background:var(--blue);color:var(--white)}
+.b-green{background:var(--green);color:var(--deep)}
+.b-line{background:var(--white);color:var(--deep);box-shadow:inset 0 0 0 1.5px var(--deep)}
+.b-deep{background:var(--deep);color:var(--white)}
+.b-danger{background:var(--white);color:var(--danger);box-shadow:inset 0 0 0 1.5px var(--danger)}
+.btn.sm{padding:9px 14px;font-size:14px;min-height:40px;border-radius:10px}
+.rip{position:absolute;border-radius:50%;transform:translate(-50%,-50%) scale(0);pointer-events:none;z-index:-1;animation:ripple .7s ease-out forwards;background:rgba(255,255,255,.35)}
+.b-line .rip,.b-green .rip{background:rgba(0,51,102,.15)}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+
+/* liquid */
+@keyframes morph{0%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;transform:translate(0,0) rotate(0)}33%{border-radius:63% 37% 45% 55%/52% 61% 39% 48%;transform:translate(24px,-16px) rotate(8deg)}66%{border-radius:38% 62% 58% 42%/63% 38% 62% 37%;transform:translate(-16px,12px) rotate(-6deg)}100%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;transform:translate(0,0) rotate(0)}}
+.blob{position:absolute;pointer-events:none;animation:morph 17s ease-in-out infinite}
+.blob.b2{animation-duration:21s;animation-direction:reverse}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.bob{animation:bob 4.5s ease-in-out infinite}
+.liq{position:relative;overflow:hidden;isolation:isolate}
+.liq::before{content:"";position:absolute;left:-15%;right:-15%;top:105%;height:150%;z-index:-1;background:var(--liqc,var(--skybg));border-radius:46% 48% 0 0/22% 26% 0 0;transition:top .7s cubic-bezier(.2,.8,.2,1)}
+.liq:hover::before,.liq:focus-visible::before{top:18%}
+@media (prefers-reduced-motion: reduce){.blob,.bob{animation:none}.liq::before{transition:none}.rip{animation-duration:.01s}}
+
+/* common */
+.trust{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--trust);background:var(--trustbg);border-radius:999px;padding:5px 12px}
+.trust.dk{background:rgba(255,255,255,.14);color:#D8F5E3}
+.disc{border-radius:50%;background:var(--skybg);display:grid;place-items:center;flex:none}
+.bubble{background:var(--white);border:1.5px solid var(--line);border-radius:16px 16px 4px 16px;padding:9px 14px;font-size:14px;font-weight:700;color:var(--deep);box-shadow:0 6px 16px rgba(0,51,102,.08)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.2em;color:var(--blue)}
+.ph{background:repeating-linear-gradient(135deg,#DDEFF9 0 14px,#E8F5FC 14px 28px);display:grid;place-items:center;color:#3E6A8C;font-size:14px;font-weight:700;text-align:center;padding:16px;background-size:cover;background-position:center}
+.tag{display:inline-flex;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--skybg);color:#0B5CB0}
+.tag.g{background:var(--greenbg);color:#1F7A1F}
+.st{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap;display:inline-block}
+.ok{background:var(--trustbg);color:var(--trust)}.wait{background:var(--warnbg);color:var(--warn)}.new{background:#FFE8E5;color:var(--danger)}.ing{background:var(--skybg);color:#0B5CB0}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--deep);color:var(--white);padding:12px 20px;border-radius:999px;font-weight:700;font-size:14px;z-index:60;box-shadow:0 10px 30px rgba(0,51,102,.3)}
+
+/* home */
+.vis{position:relative;overflow:hidden;background:var(--deep)}
+.vis .imgside{position:absolute;right:0;top:0;bottom:0;width:52%}
+.vis .edge{position:absolute;left:44%;top:-20px;bottom:-20px;width:180px;z-index:1}
+.vis .t{position:relative;z-index:2;padding-block:52px 118px}
+.vis .t > div{max-width:540px}
+.vis h1{color:var(--white);font-size:clamp(30px,4.6vw,52px);line-height:1.2;font-weight:900;letter-spacing:-.02em;margin-top:16px}
+.vis h1 em{font-style:normal;color:var(--greenl)}
+.vis p{color:#CFE4F2;font-size:17px;margin:16px 0 24px}
+.dots{display:flex;gap:8px;margin-top:26px}
+.dots button{width:30px;height:6px;border-radius:3px;border:0;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.dots button[aria-current="true"]{background:var(--green);width:46px}
+.hk{position:absolute;z-index:3;right:max(24px,calc((100% - 1200px)/2 + 16px));bottom:70px;display:flex;align-items:flex-end;gap:6px}
+.hk .bubble{margin-bottom:112px}
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--white);border-radius:22px;box-shadow:0 14px 40px rgba(0,51,102,.12);margin-top:-56px;position:relative;z-index:4;overflow:hidden}
+.quick a{display:flex;align-items:center;gap:14px;padding:24px;border-right:1px solid var(--line);min-width:0}
+.quick a:last-child{border-right:0}
+.quick .ic{width:52px;height:52px;border-radius:16px;background:var(--skybg);color:var(--blue);display:grid;place-items:center;flex:none}
+.quick a.g{--liqc:var(--greenbg)} .quick a.g .ic{background:var(--greenbg);color:#1F8F1F}
+.quick b{display:block;font-size:17px;color:var(--deep)}
+.quick small{font-size:13px;color:var(--muted)}
+.sec{padding-block:64px}
+.shd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.shd h2{font-size:clamp(24px,3vw,32px);font-weight:900;margin-top:6px}
+.shd a{font-size:15px;font-weight:700;color:var(--blue)}
+.about{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;align-items:center}
+.about .ph{aspect-ratio:16/10;border-radius:26px;max-width:100%}
+.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.vals div{background:var(--skybg);border-radius:16px;padding:16px;font-size:14px;color:var(--muted)}
+.vals b{display:block;color:var(--deep);font-size:16px;margin-bottom:4px}
+.br{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+.map{border-radius:20px;background:#E9F3F9;position:relative;overflow:hidden;min-height:360px;border:1px solid var(--line)}
+.map svg.streets{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--blue);transform:translate(-50%,-100%);border:0;background:none;padding:0;cursor:pointer}
+.pin span{background:var(--white);color:var(--deep);font-size:13px;font-weight:700;padding:5px 10px;border-radius:10px;box-shadow:0 4px 12px rgba(0,51,102,.15);white-space:nowrap}
+.pin.on span{background:var(--deep);color:var(--white)}
+.pin.on svg{color:var(--deep)}
+.maplabel{position:absolute;left:12px;bottom:12px;background:var(--white);border-radius:8px;padding:4px 10px;font-size:12px;color:var(--muted)}
+.blist{display:flex;flex-direction:column;gap:12px;position:relative}
+.bitem{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--white);text-align:left;width:100%;cursor:pointer}
+.bitem .n{width:50px;height:50px;border-radius:50%;background:var(--blue);color:var(--white);font-weight:900;display:grid;place-items:center;font-size:17px;flex:none}
+.bitem b{font-size:17px;color:var(--deep);display:block}
+.bitem small{color:var(--muted);font-size:14px}
+.peek{position:absolute;right:160px;top:-104px;width:92px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px}
+.two h3{font-size:22px;font-weight:900;display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:2px solid var(--deep)}
+.two h3 a{font-size:14px;color:var(--blue)}
+.li{display:flex;justify-content:space-between;gap:12px;padding:14px 2px;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+.li:hover .tt{color:var(--blue)}
+.li .tt svg{display:inline-block;vertical-align:-2px}
+.li .tt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .d{color:var(--muted);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tip{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;background:var(--greenbg);border-radius:24px;padding:18px 26px;margin-top:32px}
+.tip .who{font-size:12px;font-weight:700;color:var(--trust);letter-spacing:.06em}
+.tip b{display:block;font-size:18px;color:var(--deep);margin:3px 0}
+.band{position:relative;overflow:hidden;background:var(--blue);border-radius:28px;padding:36px 44px;display:flex;justify-content:space-between;align-items:center;gap:20px;color:var(--white);flex-wrap:wrap}
+.band h3{color:var(--white);font-size:clamp(22px,2.6vw,30px);font-weight:900}
+.band p{margin:6px 0 0;color:#E3F2FF}
+.foot{background:var(--deep);color:#C7DAEA;font-size:13px;line-height:1.9;margin-top:64px}
+.foot .wrap{padding-block:30px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot b{color:var(--white);letter-spacing:.06em}
+.foot a{color:var(--white);font-weight:700}
+
+/* sub */
+.subvis{position:relative;overflow:hidden;background:var(--deep);color:var(--white)}
+.subvis .wrap{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-top:30px}
+.subvis .cr{font-size:13px;color:#BFD8EA;margin-bottom:6px}
+.subvis .cr a:hover{color:var(--white)}
+.subvis h1{color:var(--white);font-size:clamp(28px,3.4vw,38px);font-weight:900}
+.subvis p{color:#CFE4F2;margin:6px 0 18px;font-size:15px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs a{padding:11px 18px;border-radius:12px 12px 0 0;font-size:15px;color:#CFE4F2;background:rgba(255,255,255,.08)}
+.tabs a:hover{background:rgba(255,255,255,.16)}
+.tabs a.on{background:var(--white);color:var(--deep);font-weight:700}
+.kg{display:flex;align-items:flex-end;gap:8px;margin-bottom:12px}
+.kg .bubble{margin-bottom:72px;max-width:240px;font-size:13px}
+.body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding-block:28px 10px}
+.lnb{align-self:start;display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(88px + env(safe-area-inset-top,0px))}
+.lnb nav{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.lnb .h{background:var(--blue);color:var(--white);font-weight:900;font-size:17px;padding:16px 20px}
+.lnb nav a{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-top:1px solid var(--line);font-size:15px}
+.lnb nav a:hover{background:var(--bg)}
+.lnb nav a.on{color:var(--blue);font-weight:700;background:var(--skybg)}
+.help{border-radius:16px;background:var(--bg);padding:14px 16px;font-size:13px;color:var(--muted);line-height:1.6}
+.help b{display:block;color:var(--deep);font-size:14px;margin-bottom:2px}
+.h2{font-size:24px;font-weight:900;color:var(--deep);margin:0 0 14px}
+.board{width:100%;border-collapse:collapse;font-size:15px}
+.board th{text-align:left;font-size:13px;color:var(--muted);font-weight:700;padding:11px 10px;border-top:2px solid var(--deep);border-bottom:1px solid var(--line);white-space:nowrap}
+.board td{padding:14px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+.board tr.row{cursor:pointer}
+.board tr.row:hover td{background:#FAFCFE}
+.board tr.pinned td{background:var(--skybg)}
+.cat{font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;background:var(--skybg);color:#0B5CB0;white-space:nowrap}
+.cat.g{background:var(--greenbg);color:#1F7A1F}.cat.y{background:var(--warnbg);color:var(--warn)}
+.tbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--white);cursor:pointer;min-height:36px}
+.chips button[aria-pressed="true"]{background:var(--deep);color:var(--white);border-color:var(--deep);font-weight:700}
+.field{height:48px;border:1.5px solid #CAD8E4;border-radius:10px;padding:0 14px;width:100%;background:var(--white)}
+textarea.field{height:120px;padding-top:12px;resize:vertical}
+.field:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(30,144,255,.18)}
+.search{display:flex;gap:8px;align-items:center}
+.form{border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f.full{grid-column:1 / -1}
+.f label{font-size:14px;font-weight:700;color:var(--deep)}
+.f label i{color:#1F8F1F;font-style:normal}
+.err{font-size:13px;color:var(--danger);min-height:0}
+.agree{grid-column:1 / -1;display:flex;align-items:center;gap:10px;font-size:14px;background:var(--bg);border-radius:12px;padding:12px 14px;flex-wrap:wrap}
+.agree input{width:20px;height:20px;accent-color:var(--blue)}
+.agree details{margin-left:auto;font-size:13px;color:var(--muted)}
+.agree summary{color:var(--blue);font-weight:700;cursor:pointer}
+.actions{grid-column:1 / -1;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.secbox{grid-column:1 / -1;background:var(--skybg);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1.2fr);gap:16px;align-items:center}
+.switch{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--deep);cursor:pointer}
+.switch input{width:44px;height:24px;appearance:none;border-radius:999px;background:#C5D4E2;position:relative;cursor:pointer;transition:background .2s;flex:none}
+.switch input::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--white);transition:left .2s}
+.switch input:checked{background:var(--blue)}.switch input:checked::after{left:23px}
+.note{display:flex;gap:10px;align-items:center;background:var(--skybg);border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:14px;color:var(--deep)}
+.ans{display:flex;gap:12px;background:var(--trustbg);border-radius:14px;padding:14px 16px;margin-top:10px}
+.ans .av{width:36px;height:36px;border-radius:50%;background:var(--white);border:2px solid var(--trust);color:var(--trust);display:grid;place-items:center;flex:none}
+.ans .who{font-size:13px;font-weight:700;color:var(--trust)}
+.ans p{margin:4px 0 0;font-size:14px;line-height:1.7;white-space:pre-line}
+.lockrow{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.lockrow .field{width:180px;height:42px}
+.pager{display:flex;justify-content:center;gap:6px;margin-top:18px}
+.pager button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer}
+.pager button[aria-current="true"]{background:var(--blue);color:var(--white);border-color:var(--blue);font-weight:700}
+.cont{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px}
+table.info{width:100%;border-collapse:collapse;font-size:15px}
+.info th{width:84px;text-align:left;color:var(--deep);padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.info td{padding:11px 0;border-bottom:1px solid var(--line)}
+.fac{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px}
+.fac div{background:var(--skybg);border-radius:12px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--deep)}
+.fac div.off{opacity:.35}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.three > div{border:1px solid var(--line);border-radius:18px;padding:20px}
+.three .ic{width:46px;height:46px;border-radius:14px;background:var(--skybg);color:var(--blue);display:grid;place-items:center;margin-bottom:12px}
+.three b{display:block;font-size:17px;color:var(--deep);margin-bottom:6px}
+.three span{font-size:14px;color:var(--muted)}
+.proc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.proc div{background:var(--bg);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.proc b{width:30px;height:30px;border-radius:50%;background:var(--blue);color:var(--white);display:grid;place-items:center;font-size:13px}
+.proc span{font-size:14px;font-weight:700;color:var(--deep)}
+.center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding-block:40px 20px;max-width:560px;margin:0 auto}
+.center h1{font-size:30px;font-weight:900;line-height:1.35}
+.center p{margin:0;color:var(--muted)}
+.sum{width:100%;background:var(--bg);border-radius:16px;padding:14px 20px;text-align:left;font-size:14px;line-height:2}
+.sum b{display:inline-block;width:90px;color:var(--deep)}
+.bar{width:220px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);width:0;transition:width 3s linear}
+
+/* admin */
+.adm{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:640px;border-top:1px solid var(--line)}
+.side{background:var(--deep);color:#CFE4F2;padding:20px 14px;display:flex;flex-direction:column;gap:3px}
+.side .lg{color:var(--white);font-weight:900;letter-spacing:.04em;margin:0 8px 16px}
+.side button{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;font-size:15px;background:none;border:0;color:inherit;text-align:left;cursor:pointer;width:100%}
+.side button:hover{background:rgba(255,255,255,.08)}
+.side button[aria-current="true"]{background:rgba(255,255,255,.14);color:var(--white);font-weight:700}
+.side .c{margin-left:auto;background:var(--green);color:var(--deep);font-size:12px;font-weight:900;padding:1px 8px;border-radius:999px}
+.side .gr{font-size:11px;color:#8FB0CC;margin:12px 12px 2px;letter-spacing:.1em}
+.main{padding:24px 28px;background:var(--bg);min-width:0}
+.main h2{font-size:24px;font-weight:900;margin-bottom:16px}
+.kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi div{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi small{color:var(--muted);font-size:13px;font-weight:700}
+.kpi b{display:block;font-size:28px;color:var(--deep);font-variant-numeric:tabular-nums}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:16px;min-width:0}
+.tblwrap{overflow-x:auto}
+.split{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+.dl{font-size:14px;line-height:1.9}
+.dl b{display:inline-block;min-width:96px;color:var(--deep)}
+.login{max-width:420px;margin:40px auto;background:var(--white);border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:14px}
+
+/* demo helper */
+.demo{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:55}
+.demo > button{display:flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--deep);border-radius:999px;padding:8px 14px 8px 8px;font-weight:700;font-size:13px;color:var(--deep);cursor:pointer;box-shadow:0 8px 20px rgba(0,51,102,.15)}
+.demo .card{position:absolute;left:0;bottom:56px;width:min(330px,calc(100vw - 32px));background:var(--white);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 18px 44px rgba(0,51,102,.2);font-size:13px;line-height:1.7}
+.demo .card b{color:var(--deep)}
+.demo .card ul{margin:8px 0;padding-left:18px}
+.tabbar{display:none}
+
+@media (max-width:860px){
+  .quick{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quick a{border-bottom:1px solid var(--line)}
+  .about,.br,.two,.cont{grid-template-columns:minmax(0,1fr)}
+  .kpi{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .split{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .hdr{height:62px}
+  .hr .pill{display:none}
+  .vis .imgside,.vis .edge{display:none}
+  .vis .t{padding-block:28px 96px}
+  .vis p{font-size:15px}
+  .hk{right:12px;bottom:50px}.hk .bubble{display:none}
+  .quick{margin-top:-44px}
+  .quick a{flex-direction:column;align-items:flex-start;gap:10px;padding:16px}
+  .quick small{display:none}
+  .sec{padding-block:38px}
+  .vals,.three{grid-template-columns:minmax(0,1fr)}
+  .map{min-height:220px}
+  .peek{display:none}
+  .tip{grid-template-columns:auto minmax(0,1fr);padding:14px}.tip .go{display:none}
+  .band{padding:24px}
+  .subvis p,.tabs,.kg .bubble{display:none}
+  .kg .disc{width:78px !important;height:78px !important}
+  .subvis .wrap{padding-top:18px}
+  .body{grid-template-columns:minmax(0,1fr);gap:12px;padding-top:0}
+  .lnb{position:static}
+  .lnb nav{display:flex;border:0;border-radius:0;overflow-x:auto;margin-inline:-16px;border-bottom:1px solid var(--line)}
+  .lnb .h,.help{display:none}
+  .lnb nav a{border-top:0;padding:14px 16px;white-space:nowrap}
+  .lnb nav a.on{background:none;border-bottom:3px solid var(--blue)}
+  .lnb nav a svg{display:none}
+  .form{grid-template-columns:minmax(0,1fr);padding:16px}
+  .secbox{grid-template-columns:minmax(0,1fr)}
+  .proc,.fac{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .board .hm{display:none}
+  .adm{grid-template-columns:minmax(0,1fr)}
+  .side{flex-direction:row;overflow-x:auto;padding:10px}
+  .side .lg,.side .gr{display:none}
+  .side button{white-space:nowrap;width:auto}
+  .main{padding:16px}
+  .foot{margin-top:40px;padding-bottom:70px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--white);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);height:calc(66px + env(safe-area-inset-bottom,0px));justify-content:space-around;align-items:center;z-index:45}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);min-width:56px}
+  .tabbar a.on{color:var(--blue);font-weight:700}
+  .demo{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+
+<div class="top gut"><div class="wrap"><header class="hdr">
+  <a class="logo" href="#home" aria-label="메디타운 홈"><span class="mk"><svg class="i" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span><b>MEDITOWN</b><small>창고형 약국 메디타운</small></span></a>
+  <div class="hr" id="menuWrap">
+    <a class="pill" href="#pharmacy">약국 문의</a>
+    <a class="pill b" href="#franchise">가맹 상담 문의</a>
+    <button type="button" class="hamb" id="hamb" aria-label="전체 메뉴" aria-expanded="false" aria-controls="mega"><svg class="i" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="mega" id="mega" hidden aria-label="전체 메뉴"><div class="in">
+      <div class="g"><a href="#brand">소개</a><span><a href="#brand">브랜드 소개</a><a href="#philosophy">기업 철학</a></span></div>
+      <div class="g"><a href="#branch">지점 안내</a><span id="megaBranches"></span></div>
+      <div class="g"><a href="#news">고객센터</a><span><a href="#news">소식</a><a href="#faq">자주 묻는 질문</a></span></div>
+      <div class="g"><a href="#pharmacy">약국 문의</a></div>
+      <div class="g" style="border-bottom:0"><a href="#franchise">가맹 상담 문의</a></div>
+      <div class="last"><span class="disc" style="width:66px;height:66px" data-k="point" data-s="58"></span><a class="btn b-green" href="#franchise" style="flex:1">가맹 상담 문의</a></div>
+    </div></nav>
+  </div>
+</header></div></div>
+
+<main id="app"></main>
+
+<footer class="foot gut"><div class="wrap">
+  <div><b>MEDITOWN</b><br>상호 [회사명] · 대표 [대표자명] · 사업자등록번호 [000-00-00000] · 고객센터 [전화번호]<br>약국 개설자 [약사명] · 의약품 관련 문의는 각 지점 약사에게 상담하세요</div>
+  <div><a href="#privacy">개인정보 처리방침</a> · <a href="#admin">관리자</a></div>
+</div></footer>
+
+<nav class="tabbar" id="tabbar" aria-label="하단 메뉴"></nav>
+
+<div class="demo" id="demo"><button type="button" id="demoBtn" aria-expanded="false"><span class="disc" style="width:32px;height:32px" data-k="stand" data-f="wink" data-s="28"></span>시연 안내</button>
+  <div class="card" id="demoCard" hidden>
+    <b>시연용 홈페이지입니다</b>
+    <ul>
+      <li>입력한 문의 · 질문은 이 브라우저에만 저장되고, 관리자 화면에서 바로 확인할 수 있어요.</li>
+      <li>관리자 비밀번호: <b>meditown</b></li>
+      <li>예시 비밀글 비밀번호: <b>1234</b></li>
+      <li>지도는 실제 사이트에서 카카오맵으로 바뀝니다.</li>
+      <li>없는 주소 체험: <a href="#nopage" style="color:var(--blue);font-weight:700">#nopage</a></li>
+    </ul>
+    <button type="button" class="btn sm b-line" id="resetDemo">시연 데이터 처음으로</button>
+  </div>
+</div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- icons ---------- */
+const P={menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',pin:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h6"/>',pill:'<rect x="3" y="9" width="18" height="7" rx="3.5" transform="rotate(-35 12 12.5)"/><path d="M9.5 8.5l5 7"/>',users:'<circle cx="9" cy="8" r="3"/><path d="M3 20c.5-3.5 3-5 6-5s5.5 1.5 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15c2.5 0 4.5 1.5 5 4"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',check:'<path d="M5 12l5 5 9-10"/>',home:'<path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/>',cart:'<path d="M3 4h2l2.5 11h11L21 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',kids:'<circle cx="12" cy="7" r="3"/><path d="M5 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/>',gym:'<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',car:'<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',grid:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',store:'<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9v11h16V9"/><path d="M10 20v-5h4v5"/>',img:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 8"/>',out:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h11"/>',heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>'};
+const ic=(n,s=20,w=2)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||""}</svg>`;
+
+/* ---------- Medikong ---------- */
+let kid=0;
+function kong(pose,size,faceK){
+  const INK="#1C1B1F",BODY="#1E90FF",CH="#FFC2C2",AC="#32CD32",id="kb"+(++kid);
+  const hand=(x,y)=>`<circle cx="${x}" cy="${y}" r="8" fill="#fff" stroke="${INK}" stroke-width="5"/>`;
+  const arm=d=>`<path d="${d}" stroke="${INK}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+  const LD=arm("M72 132 q-20 8 -24 30")+hand(47,166),RD=arm("M168 132 q20 8 24 30")+hand(193,166);
+  let eyes=`<circle cx="104" cy="88" r="7.5" fill="${INK}"/><circle cx="136" cy="88" r="7.5" fill="${INK}"/><circle cx="106.5" cy="85.5" r="2.4" fill="#fff"/><circle cx="138.5" cy="85.5" r="2.4" fill="#fff"/>`;
+  if(faceK==="wink")eyes=`<circle cx="104" cy="88" r="7.5" fill="${INK}"/><circle cx="106.5" cy="85.5" r="2.4" fill="#fff"/><path d="M129 89 q7 -7 14 0" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  if(faceK==="joy")eyes=`<path d="M97 90 q7 -8 14 0" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M129 90 q7 -8 14 0" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  const face=eyes+`<ellipse cx="92" cy="104" rx="8" ry="5" fill="${CH}"/><ellipse cx="148" cy="104" rx="8" ry="5" fill="${CH}"/><path d="M108 106 q12 11 24 0" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  let arms=LD+RD,extra="";
+  if(pose==="wave")arms=LD+arm("M168 124 q28 -8 30 -46")+hand(198,74);
+  if(pose==="hello")arms=arm("M72 124 q-28 -8 -30 -46")+hand(42,74)+arm("M168 124 q28 -8 30 -46")+hand(198,74);
+  if(pose==="point")arms=LD+arm("M168 128 q26 -2 44 -10")+hand(214,116);
+  if(pose==="pin"){arms=LD+arm("M168 128 q22 -2 28 -16")+hand(197,110);extra=`<g transform="translate(196 52)"><path d="M0 0 c-16 0 -26 12 -26 25 c0 18 26 41 26 41 s26 -23 26 -41 c0 -13 -10 -25 -26 -25z" fill="${BODY}" stroke="${INK}" stroke-width="5"/><circle cx="0" cy="25" r="9" fill="#fff" stroke="${INK}" stroke-width="4"/></g>`;}
+  if(pose==="ask"){arms=LD+arm("M168 140 q16 -6 6 -26")+hand(172,112);extra=`<g transform="translate(176 22)"><rect x="0" y="0" width="54" height="44" rx="14" fill="#fff" stroke="${INK}" stroke-width="5"/><path d="M12 42 l-6 14 l18 -12" fill="#fff" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/><text x="27" y="33" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="28" fill="${BODY}">?</text></g>`;}
+  if(pose==="clip"){arms=LD+arm("M168 134 q18 2 22 -6")+hand(192,126);extra=`<g transform="translate(184 92) rotate(8)"><rect x="0" y="0" width="44" height="58" rx="6" fill="#fff" stroke="${INK}" stroke-width="5"/><rect x="12" y="-6" width="20" height="12" rx="4" fill="${AC}" stroke="${INK}" stroke-width="4"/><path d="M9 20 h26 M9 31 h26 M9 42 h16" stroke="${INK}" stroke-width="4" stroke-linecap="round"/></g>`;}
+  if(pose==="heart"){arms=LD+arm("M168 130 q22 -2 26 -18")+hand(196,110);extra=`<g transform="translate(200 70)"><path d="M0 14 c-8 -14 -28 -10 -28 6 c0 14 28 30 28 30 s28 -16 28 -30 c0 -16 -20 -20 -28 -6z" fill="${BODY}" stroke="${INK}" stroke-width="5"/></g>`;}
+  return `<svg viewBox="0 0 240 240" width="${size}" height="${size}" role="img" aria-label="메디타운 캐릭터 메디콩" style="display:block;max-width:100%;height:auto"><ellipse cx="120" cy="226" rx="54" ry="8" fill="rgba(28,27,31,.14)"/><ellipse cx="102" cy="210" rx="14" ry="9" fill="${INK}"/><ellipse cx="138" cy="210" rx="14" ry="9" fill="${INK}"/><clipPath id="${id}"><rect x="70" y="40" width="100" height="166" rx="50"/></clipPath><g clip-path="url(#${id})"><rect x="70" y="40" width="100" height="166" fill="#fff"/><rect x="70" y="124" width="100" height="90" fill="${BODY}"/></g><rect x="70" y="40" width="100" height="166" rx="50" fill="none" stroke="${INK}" stroke-width="6"/><line x1="70" y1="124" x2="170" y2="124" stroke="${INK}" stroke-width="6"/><path d="M120 14 v22 M109 25 h22" stroke="${AC}" stroke-width="9" stroke-linecap="round"/>${face}${arms}${extra}</svg>`;
+}
+function fillKongs(root){root.querySelectorAll("[data-k]").forEach(el=>{if(!el.dataset.done){el.innerHTML=kong(el.dataset.k,+el.dataset.s||100,el.dataset.f);el.dataset.done="1";}});}
+
+/* ---------- data ---------- */
+const KEY="meditown-demo-v1";
+const today=()=>{const d=new Date();return d.getFullYear()+"."+String(d.getMonth()+1).padStart(2,"0")+"."+String(d.getDate()).padStart(2,"0");};
+function seed(){return{
+  branches:[
+    {id:"a",name:"A점",addr:"[A점 주소 · 관리자에서 등록]",tel:"[A점 전화번호]",hours:"평일 09:00~22:00 · 주말 10:00~20:00",park:"건물 지하 2시간 무료",fac:["rx","kids","car","night"],x:30,y:30,pharm:"[약사명] 외 2명"},
+    {id:"b",name:"B점",addr:"[B점 주소 · 관리자에서 등록]",tel:"[B점 전화번호]",hours:"평일 09:00~21:00 · 주말 10:00~19:00",park:"인근 공영주차장",fac:["rx","gym"],x:64,y:58,pharm:"[약사명] 외 1명"},
+    {id:"c",name:"C점",addr:"[C점 주소 · 관리자에서 등록]",tel:"[C점 전화번호]",hours:"[오픈 예정]",park:"[주차 안내]",fac:["rx","kids","car"],x:80,y:22,pharm:"[약사명]"}],
+  news:[
+    {id:1,cat:"공지",title:"연휴 기간 지점별 영업시간 안내",date:"2026.10.02",pin:true,body:"[예시 본문] 연휴 기간 동안 지점별 영업시간이 달라집니다. 방문 전 지점 안내에서 영업시간을 확인해 주세요."},
+    {id:2,cat:"지점 소식",title:"B점 키즈카페 오픈 안내",date:"2026.10.20",body:"[예시 본문] B점에 키즈카페가 문을 엽니다. 장을 보는 동안 아이가 안전하게 놀 수 있는 공간입니다."},
+    {id:3,cat:"지점 소식",title:"C점 오픈 예정 안내",date:"2026.10.11",body:"[예시 본문] 메디타운 C점이 곧 문을 엽니다. 자세한 일정은 다시 안내드리겠습니다."},
+    {id:4,cat:"이벤트",title:"홈페이지 새 단장 안내",date:"2026.09.15",body:"[예시 본문] 메디타운 홈페이지가 새롭게 바뀌었습니다. 지점 찾기와 자주 묻는 질문을 더 편하게 이용해 보세요."},
+    {id:5,cat:"공지",title:"개인정보 처리방침 개정 안내",date:"2026.09.01",body:"[예시 본문] 개인정보 처리방침이 일부 개정되었습니다. 하단의 개인정보 처리방침에서 확인할 수 있습니다."}],
+  faq:[
+    {id:12,name:"김민지",title:"복용 중인 약과 같이 먹어도 되는지 궁금해요",body:"[예시] 혈압약을 먹고 있는데 영양제를 같이 먹어도 되나요?",secret:true,pw:"1234",date:"2026.10.21",answer:null},
+    {id:11,name:"이서준",title:"처방전 없이 영양제를 살 수 있나요?",body:"[예시] 감기약이나 영양제는 처방전 없이 살 수 있는지 궁금합니다.",secret:false,date:"2026.10.19",answer:{who:"메디타운 A점 [약사명] 약사",date:"2026.10.20",text:"[예시 답변] 일반의약품과 건강기능식품은 처방전 없이 구매하실 수 있습니다. 복용 중인 약이 있다면 매장에서 약사와 상담 후 고르시길 권합니다."}},
+    {id:10,name:"박지훈",title:"아이 해열제 용량 문의",body:"[예시] 아이 해열제를 고르려고 하는데 상담 가능한가요?",secret:true,pw:"1234",date:"2026.10.16",answer:{who:"메디타운 B점 [약사명] 약사",date:"2026.10.17",text:"[예시 답변] 아이의 나이와 몸무게에 따라 용량이 다릅니다. 매장에 방문하시면 약사가 제품 설명서를 함께 확인해 드립니다."}},
+    {id:9,name:"최유나",title:"주차는 몇 시간 무료인가요?",body:"[예시] A점 주차 시간이 궁금합니다.",secret:false,date:"2026.10.12",answer:{who:"메디타운 A점 담당자",date:"2026.10.12",text:"[예시 답변] A점은 구매 고객에게 건물 지하 주차장 2시간 무료를 제공합니다."}},
+    {id:8,name:"정하늘",title:"키즈카페는 몇 살까지 이용할 수 있나요?",body:"[예시] 초등학생도 이용 가능한가요?",secret:false,date:"2026.10.08",answer:null}],
+  inquiries:[
+    {id:"P-1021-001",type:"pharmacy",date:"2026.10.21",status:"신규",memo:"",f:{"대표 약사명":"[예시] 홍길동","연락처":"010-****-1234","약국명":"[예시] ○○약국","약국 소재지":"경기","매장 면적":"100~200㎡","이메일":"-","문의 내용":"[예시] 전환 시 필요한 공사 기간이 궁금합니다."}},
+    {id:"F-1019-002",type:"franchise",date:"2026.10.19",status:"상담 중",memo:"10/20 1차 통화 완료",f:{"이름":"[예시] 김○○","연락처":"010-****-5678","이메일":"-","희망 지역":"서울","예상 개설 시기":"6개월 이내","점포 보유 여부":"미보유","문의 내용":"[예시] 가맹 비용 안내를 받고 싶습니다."}}],
+  hero:null};}
+let D;
+function load(){try{const r=localStorage.getItem(KEY);D=r?JSON.parse(r):seed();}catch(e){D=seed();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){}}
+load();
+let S={admin:false,adminTab:"dash",selBranch:null,branchQ:"",newsCat:"전체",newsId:null,newsPage:1,faqF:"전체",faqOpen:null,unlocked:{},done:null,admSel:null,editBranch:null};
+try{S.admin=sessionStorage.getItem("mt-admin")==="1";}catch(e){}
+
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mask=n=>{n=String(n||"");return n.length<=1?n:n[0]+"*".repeat(Math.min(2,n.length-1));};
+const FAC={rx:["pill","처방 조제"],kids:["kids","키즈카페"],gym:["gym","헬스존"],car:["car","주차"],night:["clock","밤 10시"]};
+const branchBy=id=>D.branches.find(b=>b.id===id);
+
+/* ---------- toast ---------- */
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2400);}
+
+/* ---------- layout pieces ---------- */
+const MENU=[["소개",[["브랜드 소개","brand"],["기업 철학","philosophy"]]],["지점 안내",null],["고객센터",[["소식","news"],["자주 묻는 질문","faq"]]],["약국 문의",[["약국 문의","pharmacy"]]],["가맹 상담 문의",[["가맹 안내 · 상담 신청","franchise"]]]];
+const MENU_HREF=["brand","branch","news","pharmacy","franchise"];
+function sub(o){
+  const kids=o.menu===1?D.branches.map(b=>[b.name,"branch",b.id]):MENU[o.menu][1];
+  return `<section class="subvis gut"><span class="blob" style="width:300px;height:300px;right:-80px;top:-170px;background:var(--blue);opacity:.45"></span><span class="blob b2" style="width:150px;height:150px;left:42%;bottom:-100px;background:var(--green);opacity:.22"></span>
+  <div class="wrap"><div style="min-width:0"><div class="cr"><a href="#home">홈</a> › ${MENU[o.menu][0]}${o.crumb?" › "+o.crumb:""}</div><h1>${o.title}</h1><p>${o.desc}</p>
+  <nav class="tabs" aria-label="대메뉴">${MENU.map((m,i)=>`<a href="#${MENU_HREF[i]}" class="${i===o.menu?"on":""}">${m[0]}</a>`).join("")}</nav></div>
+  <div class="kg"><span class="bubble">${o.say}</span><span class="disc" style="width:124px;height:124px;background:#EAF5FF" data-k="${o.pose}" data-f="${o.face||""}" data-s="108"></span></div></div></section>
+  <div class="wrap body gut"><aside class="lnb"><nav aria-label="${MENU[o.menu][0]} 메뉴"><div class="h">${MENU[o.menu][0]}</div>${kids.map(k=>{const on=o.menu===1?S.selBranch===k[2]:k[0]===o.sub;return `<a href="#${k[1]}" ${k[2]?`data-branch="${k[2]}"`:""} class="${on?"on":""}">${esc(k[0])}${on?ic("arrow",16):""}</a>`;}).join("")}</nav>${o.help?`<div class="help"><b>${o.help[0]}</b>${o.help[1]}</div>`:""}</aside>
+  <div style="min-width:0">${o.content}</div></div>`;
+}
+const MAP_SVG=`<svg class="streets" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="700" height="400" fill="#E9F3F9"/><path d="M-10 300 C180 250 360 330 720 240" stroke="#BFE4FA" stroke-width="36" fill="none"/><g stroke="#fff" stroke-width="14"><path d="M0 100H700M0 205H700M0 345H700M150 0V400M360 0V400M560 0V400"/></g><rect x="380" y="120" width="80" height="70" rx="8" fill="#D3F5D3"/><rect x="180" y="230" width="60" height="50" rx="8" fill="#DCEAF5"/></svg>`;
+function mapHTML(sel,small){return `<div class="map" ${small?'style="min-height:360px"':""}>${MAP_SVG}${D.branches.map(b=>`<button type="button" class="pin ${b.id===sel?"on":""}" style="left:${b.x}%;top:${b.y+12}%" data-pick="${b.id}" aria-label="${esc(b.name)} 선택"><span>${esc(b.name)}</span>${ic("pin",30,2.4)}</button>`).join("")}<span class="maplabel">시연용 지도 · 실제 사이트는 카카오맵</span></div>`;}
+function form(fields,submit,btnClass){
+  return `<form class="form" novalidate data-form="${submit}">${fields.map(f=>{
+    const id="f-"+submit+"-"+f.k;
+    let input;
+    if(f.t==="select")input=`<select class="field" id="${id}" name="${f.k}"><option value="">선택하세요</option>${f.o.map(o=>`<option>${o}</option>`).join("")}</select>`;
+    else if(f.t==="area")input=`<textarea class="field" id="${id}" name="${f.k}" placeholder="${f.ph||""}"></textarea>`;
+    else input=`<input class="field" id="${id}" name="${f.k}" type="${f.t||"text"}" placeholder="${f.ph||""}" ${f.t==="tel"?'inputmode="tel"':""}>`;
+    return `<div class="f ${f.full?"full":""}"><label for="${id}">${f.l} ${f.req?"<i>*</i>":""}</label>${input}<span class="err" data-err="${f.k}"></span></div>`;}).join("")}
+    ${submit==="ask"?`<div class="secbox"><label class="switch"><input type="checkbox" id="f-ask-secret" name="secret" checked> ${ic("lock",18)} 비밀글로 등록</label><div class="f"><label for="f-ask-pw">비밀번호 <i>*</i></label><input class="field" id="f-ask-pw" name="pw" type="password" inputmode="numeric" placeholder="4자리 이상"><span class="err" data-err="pw"></span></div><span style="font-size:13px;color:var(--muted)">비밀글은 이 비밀번호를 입력한 사람과 관리자만 볼 수 있습니다. 실제 사이트에서는 비밀번호를 암호화해 저장합니다.</span></div>`:""}
+    <div class="agree"><input type="checkbox" id="f-${submit}-agree" name="agree"><label for="f-${submit}-agree">개인정보 수집 · 이용에 동의합니다 (필수)</label><details><summary>전문 보기</summary>수집 항목: 이름, 연락처 등 입력 항목 · 목적: 문의 응대 · 보유 기간: 3년 후 파기</details><span class="err" data-err="agree" style="width:100%"></span></div>
+    <div class="actions"><button type="submit" class="btn ${btnClass||"b-blue"}" data-ripple>${submit==="ask"?"질문 등록":submit==="franchise"?"상담 신청하기":"문의 접수하기"}</button></div></form>`;
+}
+
+/* ---------- views ---------- */
+const V={};
+V.home=()=>{
+  const sel=S.selBranch||D.branches[0]?.id;
+  const latestNews=[...D.news].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+  const latestFaq=D.faq.slice(0,3);
+  return `<section class="vis"><div class="imgside ph" style="${D.hero?`background-image:url(${D.hero});color:transparent`:""}">${D.hero?"":"메인 비주얼 사진 자리<br>(관리자 › 이미지 관리에서 교체)"}</div>
+  <svg class="edge" viewBox="0 0 180 560" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H90 C150 90 40 180 110 280 C170 360 60 460 120 560 H0Z" fill="#003366"/></svg>
+  <span class="blob" style="width:300px;height:300px;left:-100px;bottom:-140px;background:var(--blue);opacity:.35;z-index:1"></span>
+  <div class="wrap t gut"><div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="trust dk">${ic("check",14,3)}약사 상주</span><span class="trust dk">${ic("check",14,3)}처방 조제</span><span class="trust dk">${ic("check",14,3)}정품 정식 유통</span></div>
+    <h1 id="heroTitle">${HERO[S.slide||0][0]}</h1><p id="heroSub">${HERO[S.slide||0][1]}</p>
+    <a class="btn b-green" href="${HERO[S.slide||0][3]}" id="heroBtn" data-ripple>${HERO[S.slide||0][2]} ${ic("arrow",18)}</a>
+    <div class="dots" role="tablist" aria-label="메인 슬라이드">${HERO.map((h,i)=>`<button type="button" role="tab" aria-label="${i+1}번 슬라이드" aria-current="${i===(S.slide||0)}" data-slide="${i}"></button>`).join("")}</div>
+  </div></div>
+  <div class="hk"><span class="bubble">어서 오세요! 메디콩이 안내해 드릴게요</span><span class="bob" data-k="wave" data-s="140"></span></div></section>
+  <div class="wrap gut"><div class="quick">
+    <a class="liq" href="#branch"><span class="ic">${ic("pin",26)}</span><span><b>지점 찾기</b><small>지점명으로 검색</small></span></a>
+    <a class="liq" href="#faq"><span class="ic">${ic("chat",26)}</span><span><b>자주 묻는 질문</b><small>비밀글 질문 가능</small></span></a>
+    <a class="liq g" href="#pharmacy"><span class="ic">${ic("pill",26)}</span><span><b>약국 문의</b><small>약국 전환 상담</small></span></a>
+    <a class="liq g" href="#franchise"><span class="ic">${ic("users",26)}</span><span><b>가맹 상담</b><small>새 지점 개설</small></span></a></div></div>
+  <section class="sec gut"><div class="wrap"><div class="shd"><div><span class="eyebrow">ABOUT</span><h2>메디타운 소개</h2></div><a href="#brand">브랜드 소개 · 기업 철학 →</a></div>
+    <div class="about"><div class="ph">브랜드 이미지 자리<br>(관리자에서 교체)</div><div><p style="font-size:17px;line-height:1.85;margin:0">[브랜드 소개 문구] 메디타운은 의약품과 건강기능식품, 생활용품, 식품까지 한곳에서 직접 비교하고 고를 수 있는 창고형 약국입니다. 모든 지점에 약사가 상주해 언제든 상담할 수 있습니다.</p>
+    <div class="vals"><div><b>직접 비교</b>[철학 1 요약]</div><div><b>약사 상담</b>[철학 2 요약]</div><div><b>가족 건강</b>[철학 3 요약]</div></div></div></div></div></section>
+  <section class="sec gut" style="background:var(--bg)"><div class="wrap"><div class="shd"><div><span class="eyebrow">STORES</span><h2>지점 안내</h2></div><a href="#branch">전체 지점 보기 →</a></div>
+    <div class="br">${mapHTML(sel,true)}<div class="blist"><span class="peek" data-k="pin" data-s="92"></span>${D.branches.map((b,i)=>`<a class="bitem liq" href="#branch" data-branch="${b.id}"><span class="n">${esc(b.name.replace(/점$/,"")).slice(0,2)}</span><span style="flex:1;min-width:0"><b>메디타운 ${esc(b.name)}</b><small>${esc(b.addr)}</small></span>${ic("arrow",20)}</a>`).join("")}</div></div></div></section>
+  <section class="sec gut"><div class="wrap"><div class="two">
+    <div><h3>소식<a href="#news">더보기 +</a></h3>${latestNews.map(n=>`<button type="button" class="li" data-news="${n.id}"><span class="tt">[${n.cat}] ${esc(n.title)}</span><span class="d">${n.date}</span></button>`).join("")}</div>
+    <div><h3>자주 묻는 질문<a href="#faq">더보기 +</a></h3>${latestFaq.map(q=>`<button type="button" class="li" data-faq="${q.id}"><span class="tt">${q.secret?ic("lock",14)+" 비밀글입니다":esc(q.title)}</span><span class="d" style="${q.answer?"color:var(--trust);font-weight:700":""}">${q.answer?"답변 완료":"답변 대기"}</span></button>`).join("")}</div></div>
+    <div class="tip"><span class="disc" style="width:82px;height:82px;background:var(--white)" data-k="point" data-s="72"></span><div style="min-width:0"><span class="who">이번 주 약사 추천 · [약사명] 약사</span><b>[추천 콘텐츠 제목] 환절기, 이것부터 챙기세요</b><span style="font-size:14px;color:var(--muted)">[약사 추천 요약 문구 한 줄]</span></div><a class="btn sm b-line go" href="#news">자세히 보기</a></div></div></section>
+  <div class="wrap gut"><div class="band"><span class="blob" style="width:260px;height:260px;right:-60px;top:-90px;background:var(--greenl);opacity:.35"></span>
+    <div style="display:flex;align-items:center;gap:20px;position:relative;min-width:0"><span class="disc" style="width:110px;height:110px;background:var(--white)" data-k="clip" data-s="96"></span><div><h3>메디타운과 함께할 파트너를 찾습니다</h3><p>약국 전환 · 신규 가맹 모두 상담해 드립니다.</p></div></div>
+    <div style="display:flex;gap:10px;position:relative;flex-wrap:wrap"><a class="btn" style="background:var(--white);color:var(--deep)" href="#pharmacy" data-ripple>약국 문의</a><a class="btn b-green" href="#franchise" data-ripple>가맹 상담 신청</a></div></div></div>`;
+};
+const HERO=[["건강한 생활의 모든 것,<br><em>메디타운</em>에서","의약품부터 생활용품까지 직접 비교하고, 약사와 상담하는 창고형 약국입니다.","브랜드 소개 보기","#brand"],["가까운 메디타운,<br><em>지도에서 바로</em>","지점명만 입력하면 위치와 영업시간, 시설을 바로 확인할 수 있어요.","지점 찾기","#branch"],["우리 동네에도<br><em>메디타운</em>을 열어보세요","약국 전환과 신규 가맹, 담당자가 직접 상담해 드립니다.","가맹 상담 신청","#franchise"]];
+
+V.brand=()=>sub({menu:0,sub:"브랜드 소개",crumb:"브랜드 소개",title:"브랜드 소개",desc:"필요한 건 전부, 한 지붕 아래. 메디타운을 소개합니다.",pose:"point",say:"메디타운이 어떤 곳인지 알려드릴게요!",help:["메디타운 한눈에","창고형 약국 · 약사 상주 · 생활 공간"],content:`
+  <p style="font-size:clamp(22px,2.6vw,30px);line-height:1.45;font-weight:900;color:var(--deep);margin:0 0 18px">약국에 들렀다가 <span style="color:var(--blue)">장보기까지</span>,<br>한곳에서 끝나는 창고형 약국</p>
+  <div class="about" style="gap:22px;margin-bottom:28px"><div class="ph" style="aspect-ratio:16/10;border-radius:22px">매장 내부 사진 자리</div><div><p style="margin:0 0 12px;line-height:1.85">[브랜드 소개 문구] 메디타운은 의약품과 건강기능식품, 생활용품, 식품, 반려용품까지 한곳에서 직접 비교하고 고를 수 있는 창고형 약국입니다.</p><p style="margin:0 0 14px;line-height:1.85">[브랜드 소개 문구] 모든 지점에 약사가 상주해 언제든 상담할 수 있고, 지점에 따라 키즈카페와 헬스존 같은 생활 공간도 함께 운영합니다.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="trust">${ic("check",14,3)}약사 상주</span><span class="trust">${ic("check",14,3)}처방 조제</span><span class="trust">${ic("check",14,3)}정품 정식 유통</span></div></div></div>
+  <h2 class="h2">메디타운에서 할 수 있는 것</h2>
+  <div class="three"><div><span class="ic">${ic("pill",24)}</span><b>약국</b><span>처방 조제와 일반의약품, 약사 1:1 상담</span></div><div><span class="ic">${ic("cart",24)}</span><b>생활 쇼핑</b><span>생활용품 · 식품 · 뷰티 · 반려용품을 창고형 가격으로</span></div><div><span class="ic" style="background:var(--greenbg);color:#1F7A1F">${ic("kids",24)}</span><b>생활 공간</b><span>지점별 키즈카페 · 헬스존 운영</span></div></div>`});
+
+V.philosophy=()=>sub({menu:0,sub:"기업 철학",crumb:"기업 철학",title:"기업 철학",desc:"메디타운이 매장과 고객을 대하는 세 가지 약속입니다.",pose:"heart",say:"저희가 꼭 지키는 약속이에요",help:["세 가지 약속","비교 · 상담 · 가족"],content:`
+  <div style="border-radius:24px;background:var(--skybg);padding:30px;position:relative;overflow:hidden;margin-bottom:20px"><span class="blob" style="width:200px;height:200px;right:-50px;top:-80px;background:var(--skyl);opacity:.5"></span><span class="blob b2" style="width:120px;height:120px;right:160px;bottom:-70px;background:var(--greenl);opacity:.5"></span>
+  <span class="eyebrow" style="position:relative">MISSION</span><h2 style="position:relative;font-size:clamp(20px,2.4vw,28px);line-height:1.45;margin-top:8px">[미션 문구] 누구나 쉽게 비교하고,<br>안심하고 고르는 동네 건강 거점</h2></div>
+  <div class="three">${[["01","직접 비교하는 쇼핑","[기업 철학 1] 성분과 가격을 한눈에 비교할 수 있도록 카테고리별로 진열합니다.",""],["02","언제든 약사 상담","[기업 철학 2] 고민이 생기면 매장 약사가 1:1로 맞는 제품을 함께 찾아드립니다.",""],["03","온 가족의 건강","[기업 철학 3] 아이부터 어르신, 반려동물까지 가족 모두의 건강을 생각합니다.","g"]].map(p=>`<div class="liq" style="${p[3]?"--liqc:var(--greenbg)":""}"><span style="font-size:40px;font-weight:900;color:${p[3]?"#1F8F1F":"var(--blue)"};line-height:1">${p[0]}</span><b style="margin-top:12px">${p[1]}</b><span style="font-size:15px;line-height:1.7;color:var(--ink)">${p[2]}</span></div>`).join("")}</div>`});
+
+V.branch=()=>{
+  if(!S.selBranch||!branchBy(S.selBranch))S.selBranch=D.branches[0]?.id||null;
+  const b=branchBy(S.selBranch);
+  const q=S.branchQ;
+  const res=q?D.branches.filter(x=>x.name.includes(q)||("메디타운 "+x.name).includes(q)||x.addr.includes(q)):null;
+  const info=b?`<div><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 class="h2" style="margin:0">메디타운 ${esc(b.name)}</h2><span class="trust">${b.hours.includes("오픈 예정")?"오픈 예정":"영업 중 · 약사 상주"}</span></div>
+    <table class="info" style="margin-top:8px"><tr><th>주소</th><td>${esc(b.addr)}</td></tr><tr><th>전화</th><td>${esc(b.tel)}</td></tr><tr><th>영업시간</th><td>${esc(b.hours)}</td></tr><tr><th>주차</th><td>${esc(b.park)}</td></tr><tr><th>약사</th><td>${esc(b.pharm||"-")} 상주</td></tr></table>
+    <div class="fac">${Object.keys(FAC).filter(k=>k!=="night"||b.fac.includes("night")).slice(0,5).map(k=>`<div class="${b.fac.includes(k)?"":"off"}">${ic(FAC[k][0],20)}${FAC[k][1]}</div>`).join("")}</div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><a class="btn sm b-line" href="https://map.kakao.com/?q=${encodeURIComponent("메디타운 "+b.name)}" target="_blank" rel="noopener">길찾기 (카카오맵)</a><button type="button" class="btn sm b-blue" data-copy="${esc(b.tel)}">전화번호 복사</button></div></div>`:`<p>등록된 지점이 없습니다.</p>`;
+  return sub({menu:1,sub:b?b.name:"",crumb:b?esc(b.name):"",title:"지점 안내",desc:"지점명을 입력하면 지도와 주소를 바로 확인할 수 있어요.",pose:"pin",say:"지점명을 입력하면 지도로 안내해 드려요",help:["지점 운영 안내","모든 지점에 약사가 상주합니다."],content:`
+    <form class="search" data-form="branchq" style="margin-bottom:12px" role="search"><label for="bq" class="sr" style="position:absolute;left:-9999px">지점명 검색</label><input class="field" id="bq" name="q" value="${esc(q)}" placeholder="지점명을 입력하세요 (예: A점)" autocomplete="off"><button class="btn b-blue" type="submit" data-ripple>${ic("search",18)}검색</button></form>
+    ${res?`<div class="note">${res.length?`'${esc(q)}' 검색 결과 ${res.length}곳: ${res.map(x=>`<a data-pick="${x.id}" style="font-weight:700;text-decoration:underline">${esc(x.name)}</a>`).join(", ")}`:`'${esc(q)}'에 해당하는 지점이 없습니다. 지점명을 다시 확인해 주세요.`} <a data-clearq style="margin-left:auto;color:var(--blue);font-weight:700">검색 지우기</a></div>`:""}
+    <div class="cont">${mapHTML(S.selBranch)}${info}</div>`});
+};
+
+V.news=()=>{
+  if(S.newsId){const n=D.news.find(x=>x.id===S.newsId);if(n)return sub({menu:2,sub:"소식",crumb:"소식",title:"소식",desc:"메디타운의 공지와 새로운 소식을 알려드립니다.",pose:"hello",face:"joy",say:"새 소식이 있어요!",help:["고객센터","평일 09:00~18:00 · [전화번호]"],content:`
+    <article><div style="border-top:2px solid var(--deep);border-bottom:1px solid var(--line);padding:18px 4px"><span class="cat ${n.cat==="지점 소식"?"g":n.cat==="이벤트"?"y":""}">${n.cat}</span><h2 style="font-size:24px;margin-top:10px">${esc(n.title)}</h2><span style="font-size:14px;color:var(--muted)">${n.date}</span></div>
+    <div style="padding:24px 4px;line-height:1.85;white-space:pre-line;min-height:160px">${esc(n.body)}</div>
+    <div style="border-top:1px solid var(--line);padding-top:16px"><button type="button" class="btn sm b-line" data-newsback>목록으로</button></div></article>`});}
+  const cats=["전체","공지","지점 소식","이벤트"];
+  let list=[...D.news].sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.date.localeCompare(a.date));
+  if(S.newsCat!=="전체")list=list.filter(n=>n.cat===S.newsCat);
+  return sub({menu:2,sub:"소식",crumb:"소식",title:"소식",desc:"메디타운의 공지와 새로운 소식을 알려드립니다.",pose:"hello",face:"joy",say:"새 소식이 있어요!",help:["고객센터","평일 09:00~18:00 · [전화번호]"],content:`
+    <div class="tbar"><div class="chips">${cats.map(c=>`<button type="button" aria-pressed="${S.newsCat===c}" data-newscat="${c}">${c}</button>`).join("")}</div></div>
+    <div style="overflow-x:auto"><table class="board"><thead><tr><th style="width:60px">번호</th><th style="width:96px">분류</th><th>제목</th><th class="hm" style="width:110px">작성일</th></tr></thead><tbody>
+    ${list.length?list.map(n=>`<tr class="row ${n.pin?"pinned":""}" data-news="${n.id}" tabindex="0"><td>${n.pin?ic("bell",16):n.id}</td><td><span class="cat ${n.cat==="지점 소식"?"g":n.cat==="이벤트"?"y":""}">${n.cat}</span></td><td>${n.pin?"<b>":""}${esc(n.title)}${n.pin?"</b>":""}</td><td class="hm">${n.date}</td></tr>`).join(""):`<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:40px">등록된 소식이 없습니다.</td></tr>`}</tbody></table></div>`});
+};
+
+V.faq=()=>{
+  let list=D.faq.filter(q=>!q.hidden);
+  if(S.faqF==="답변 완료")list=list.filter(q=>q.answer);
+  if(S.faqF==="답변 대기")list=list.filter(q=>!q.answer);
+  const rows=list.map(q=>{
+    const canSee=!q.secret||S.unlocked[q.id]||S.admin;
+    const open=S.faqOpen===q.id;
+    let detail="";
+    if(open){
+      if(!canSee)detail=`<form class="lockrow" data-form="unlock" data-id="${q.id}"><label for="pw-${q.id}" style="font-size:14px;color:var(--muted)">작성할 때 정한 비밀번호를 입력하세요</label><input class="field" id="pw-${q.id}" name="pw" type="password" inputmode="numeric" autocomplete="off"><button class="btn sm b-deep" type="submit">확인</button><span class="err" data-err="pw"></span></form>`;
+      else detail=`<div style="margin-top:10px;font-size:15px;line-height:1.75;white-space:pre-line">${esc(q.body)}</div>${q.answer?`<div class="ans"><span class="av">${ic("pill",18,2.4)}</span><div><span class="who">${esc(q.answer.who)} · ${q.answer.date}</span><p>${esc(q.answer.text)}</p></div></div>`:`<div class="note" style="margin:10px 0 0">아직 답변을 준비하고 있어요. 확인 후 답변해 드립니다.</div>`}`;
+    }
+    const title=q.secret&&!canSee?`<span style="display:inline-flex;gap:6px;align-items:center;color:var(--muted)">${ic("lock",15)}비밀글입니다</span>`:`${q.secret?ic("lock",14)+" ":""}<b style="font-weight:${open?700:500}">${esc(q.title)}</b>`;
+    return `<tr class="row" data-faqrow="${q.id}" tabindex="0" aria-expanded="${open}"><td>${q.id}</td><td>${title}${detail}</td><td class="hm">${esc(mask(q.name))}</td><td class="hm">${q.date}</td><td><span class="st ${q.answer?"ok":"wait"}">${q.answer?"답변 완료":"답변 대기"}</span></td></tr>`;}).join("");
+  return sub({menu:2,sub:"자주 묻는 질문",crumb:"자주 묻는 질문",title:"자주 묻는 질문",desc:"궁금한 점을 남기면 메디타운 약사와 담당자가 답변해 드립니다.",pose:"ask",say:"궁금한 건 편하게 물어보세요",help:["비밀글로 물어볼 수 있어요","비밀번호를 정하면 본인과 관리자만 볼 수 있어요."],content:`
+    <div class="tbar"><div class="chips">${["전체","답변 완료","답변 대기"].map(c=>`<button type="button" aria-pressed="${S.faqF===c}" data-faqf="${c}">${c}</button>`).join("")}</div><a class="btn sm b-blue" href="#ask" data-ripple>${ic("chat",18)}질문하기</a></div>
+    <div style="overflow-x:auto"><table class="board"><thead><tr><th style="width:56px">번호</th><th>제목</th><th class="hm" style="width:80px">작성자</th><th class="hm" style="width:104px">작성일</th><th style="width:92px">상태</th></tr></thead><tbody>${rows||`<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">해당하는 질문이 없습니다.</td></tr>`}</tbody></table></div>`});
+};
+
+V.ask=()=>sub({menu:2,sub:"자주 묻는 질문",crumb:"자주 묻는 질문 › 질문하기",title:"질문하기",desc:"질문을 남기면 확인 후 답변을 드립니다.",pose:"ask",say:"비밀글로 남길 수도 있어요",help:["답변 안내","평균 1~2일 안에 약사 · 담당자가 답변합니다."],content:form([{k:"name",l:"이름",req:1,ph:"홍길동"},{k:"phone",l:"연락처 (답변 알림용)",t:"tel",ph:"010-0000-0000"},{k:"title",l:"제목",req:1,full:1,ph:"질문 제목을 입력하세요"},{k:"body",l:"내용",req:1,full:1,t:"area",ph:"궁금하신 내용을 적어주세요"}],"ask")});
+
+const PH_FIELDS=[{k:"대표 약사명",l:"대표 약사명",req:1,ph:"홍길동"},{k:"연락처",l:"연락처",req:1,t:"tel",ph:"010-0000-0000"},{k:"약국명",l:"약국명",req:1,ph:"○○약국"},{k:"약국 소재지",l:"약국 소재지",req:1,t:"select",o:["서울","경기","인천","부산","대구","광주","대전","울산","세종","강원","충북","충남","전북","전남","경북","경남","제주"]},{k:"매장 면적",l:"매장 면적",t:"select",o:["100㎡ 미만","100~200㎡","200~330㎡","330㎡ 이상"]},{k:"이메일",l:"이메일",t:"email",ph:"example@email.com"},{k:"문의 내용",l:"문의 내용",req:1,full:1,t:"area",ph:"전환 시기, 궁금한 점 등을 적어주세요"}];
+const FR_FIELDS=[{k:"이름",l:"이름",req:1,ph:"홍길동"},{k:"연락처",l:"연락처",req:1,t:"tel",ph:"010-0000-0000"},{k:"이메일",l:"이메일",t:"email",ph:"example@email.com"},{k:"희망 지역",l:"희망 지역",req:1,t:"select",o:PH_FIELDS[3].o},{k:"예상 개설 시기",l:"예상 개설 시기",t:"select",o:["3개월 이내","6개월 이내","1년 이내","미정"]},{k:"점포 보유 여부",l:"점포 보유 여부",t:"select",o:["보유","미보유","알아보는 중"]},{k:"문의 내용",l:"문의 내용",req:1,full:1,t:"area",ph:"궁금하신 내용을 적어주세요"}];
+V.pharmacy=()=>sub({menu:3,sub:"약국 문의",title:"약국 문의",desc:"운영 중인 약국을 메디타운 방식으로 바꾸는 방법을 상담해 드립니다.",pose:"clip",say:"아래 항목을 채워 주세요",help:["약국 문의 전화","[전화번호] · 평일 09:00~18:00"],content:`<div class="note">${ic("info",20)}남겨주신 내용은 관리자 게시판에 저장되며, 담당자가 확인 후 연락드립니다.</div>`+form(PH_FIELDS,"pharmacy")});
+V.franchise=()=>sub({menu:4,sub:"가맹 안내 · 상담 신청",crumb:"가맹 안내 · 상담 신청",title:"가맹 상담 문의",desc:"우리 동네에 메디타운을 열어보세요. 가맹 담당자가 직접 연락드립니다.",pose:"clip",say:"상담 신청은 1분이면 끝나요",help:["가맹 상담 전화","[전화번호] · 평일 09:00~18:00"],content:`<div class="proc">${["온라인 상담 신청","담당자 연락 · 상권 검토","매장 견학 · 방문 상담","가맹 계약 · 오픈 준비"].map((t,i)=>`<div><b>${i+1}</b><span>${t}</span></div>`).join("")}</div>`+form(FR_FIELDS,"franchise","b-green")});
+
+V.done=()=>{const d=S.done;if(!d){location.hash="home";return "";}
+  return `<div class="wrap gut"><div class="center"><span data-k="heart" data-s="180"></span><span class="eyebrow">THANK YOU</span><h1>${d.title}</h1><p>${d.msg}</p>
+  <div class="sum">${d.rows.map(r=>`<b>${r[0]}</b>${esc(r[1])}<br>`).join("")}</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><a class="btn b-line" href="#home">홈으로</a><a class="btn b-blue" href="${d.next[1]}">${d.next[0]}</a></div>
+  <p style="font-size:13px">시연 안내: 관리자 화면(비밀번호 meditown)에서 방금 접수한 내용을 확인할 수 있어요.</p></div></div>`;};
+
+V.privacy=()=>`<div class="wrap gut" style="padding-block:40px;max-width:760px"><h1 style="font-size:30px;margin-bottom:16px">개인정보 처리방침</h1><p style="color:var(--muted)">[예시] 실제 사이트에서는 법무 검토를 거친 처리방침 전문이 들어갑니다.</p><h2 class="h2" style="font-size:18px;margin-top:22px">1. 수집 항목</h2><p>이름, 연락처, 이메일, 문의 내용 등 각 문의 폼에 입력한 항목</p><h2 class="h2" style="font-size:18px">2. 이용 목적</h2><p>문의 응대, 가맹 · 약국 전환 상담</p><h2 class="h2" style="font-size:18px">3. 보유 기간</h2><p>접수일로부터 3년 보관 후 지체 없이 파기</p><a class="btn b-line" href="#home" style="margin-top:12px">홈으로</a></div>`;
+
+V.notfound=()=>`<div class="wrap gut"><div class="center"><span data-k="stand" data-f="wink" data-s="180"></span><span class="eyebrow">PAGE NOT FOUND</span><h1>찾으시는 페이지가 없어요</h1><p>주소가 바뀌었거나 없는 페이지입니다.<br><b style="color:var(--deep)">3초 후 메디타운 홈으로 이동합니다.</b></p><div class="bar"><i id="nfbar"></i></div><div style="display:flex;gap:10px"><a class="btn b-blue" href="#home">지금 홈으로</a><a class="btn b-line" href="#branch">지점 찾기</a></div></div></div>`;
+
+/* ---------- admin ---------- */
+V.admin=()=>{
+  if(!S.admin)return `<div class="gut" style="background:var(--bg);padding-block:20px 40px"><form class="login" data-form="login"><div style="display:flex;align-items:center;gap:12px"><span class="disc" style="width:60px;height:60px" data-k="stand" data-s="54"></span><div><h1 style="font-size:22px">관리자 로그인</h1><span style="font-size:13px;color:var(--muted)">시연용 비밀번호: meditown</span></div></div>
+  <div class="f"><label for="adm-id">아이디</label><input class="field" id="adm-id" value="admin" autocomplete="username"></div><div class="f"><label for="adm-pw">비밀번호</label><input class="field" id="adm-pw" name="pw" type="password" autocomplete="current-password"><span class="err" data-err="pw"></span></div>
+  <button class="btn b-deep" type="submit">로그인</button><span style="font-size:12px;color:var(--muted)">실제 사이트에서는 접속 IP 제한과 2단계 인증을 함께 적용합니다.</span></form></div>`;
+  const nP=D.inquiries.filter(i=>i.type==="pharmacy"&&i.status==="신규").length,nF=D.inquiries.filter(i=>i.type==="franchise"&&i.status==="신규").length,nQ=D.faq.filter(q=>!q.answer&&!q.hidden).length;
+  const tabs=[["dash","grid","대시보드"],["G","","콘텐츠"],["image","img","이미지 관리"],["branches","store","지점 관리"],["newsAdm","bell","소식 관리"],["G","","게시판"],["qna","chat","Q&A 답변",nQ],["pharmacy","pill","약국 문의",nP],["franchise","users","가맹 상담 문의",nF]];
+  return `<div class="adm"><aside class="side"><div class="lg">MEDITOWN 관리자</div>${tabs.map(t=>t[0]==="G"?`<div class="gr">${t[2]}</div>`:`<button type="button" data-atab="${t[0]}" aria-current="${S.adminTab===t[0]}">${ic(t[1],18)}${t[2]}${t[3]?`<span class="c">${t[3]}</span>`:""}</button>`).join("")}<button type="button" data-logout style="margin-top:10px">${ic("out",18)}로그아웃</button></aside><section class="main">${ADM[S.adminTab]()}</section></div>`;
+};
+const ADM={};
+ADM.dash=()=>{const tot=D.inquiries.length,nw=D.inquiries.filter(i=>i.status==="신규").length,q=D.faq.filter(x=>!x.answer&&!x.hidden).length;
+  return `<h2>대시보드</h2><div class="kpi"><div><small>전체 문의</small><b>${tot}건</b></div><div><small>신규 (미확인)</small><b>${nw}건</b></div><div><small>답변 대기 질문</small><b>${q}건</b></div><div><small>운영 지점</small><b>${D.branches.length}곳</b></div></div>
+  <div class="panel"><h3 style="font-size:17px;margin-bottom:10px">최근 접수</h3><div class="tblwrap"><table class="board"><thead><tr><th>접수번호</th><th>구분</th><th>이름</th><th>접수일</th><th>상태</th></tr></thead><tbody>${[...D.inquiries].reverse().slice(0,6).map(i=>`<tr class="row" data-goinq="${i.id}"><td>${i.id}</td><td>${i.type==="pharmacy"?"약국 문의":"가맹 상담"}</td><td>${esc(i.f["대표 약사명"]||i.f["이름"])}</td><td>${i.date}</td><td>${stBadge(i.status)}</td></tr>`).join("")||`<tr><td colspan="5" style="color:var(--muted)">접수된 문의가 없습니다.</td></tr>`}</tbody></table></div></div>`;};
+const stBadge=s=>`<span class="st ${s==="신규"?"new":s==="상담 중"?"ing":"ok"}">${s}</span>`;
+function inqTab(type){
+  const list=D.inquiries.filter(i=>i.type===type).slice().reverse();
+  const sel=list.find(i=>i.id===S.admSel)||list[0];
+  return `<h2>${type==="pharmacy"?"약국 문의":"가맹 상담 문의"}</h2><div class="split"><div class="panel"><div class="tbar"><span style="font-size:14px;color:var(--muted)">총 ${list.length}건</span><button type="button" class="btn sm b-line" data-copytable="${type}">표 복사 (엑셀 붙여넣기)</button></div><div class="tblwrap"><table class="board"><thead><tr><th>접수번호</th><th>이름</th><th>지역</th><th>접수일</th><th>상태</th></tr></thead><tbody>
+  ${list.map(i=>`<tr class="row" data-sel="${i.id}" style="${sel&&sel.id===i.id?"background:var(--skybg)":""}"><td>${i.id}</td><td>${esc(i.f["대표 약사명"]||i.f["이름"])}</td><td>${esc(i.f["약국 소재지"]||i.f["희망 지역"])}</td><td>${i.date}</td><td>${stBadge(i.status)}</td></tr>`).join("")||`<tr><td colspan="5" style="color:var(--muted)">접수된 문의가 없습니다. 사이트에서 문의를 접수해 보세요.</td></tr>`}</tbody></table></div></div>
+  ${sel?`<form class="panel" data-form="inqsave" data-id="${sel.id}"><h3 style="font-size:17px;margin-bottom:8px">${sel.id} 상세</h3><div class="dl">${Object.entries(sel.f).map(([k,v])=>`<b>${esc(k)}</b>${esc(v)}`).join("<br>")}</div>
+  <div class="f" style="margin-top:12px"><label for="inq-st">처리 상태</label><select class="field" id="inq-st" name="status">${["신규","상담 중","완료"].map(s=>`<option ${s===sel.status?"selected":""}>${s}</option>`).join("")}</select></div>
+  <div class="f" style="margin-top:10px"><label for="inq-memo">담당자 메모</label><textarea class="field" id="inq-memo" name="memo" style="height:90px">${esc(sel.memo)}</textarea></div>
+  <div class="actions" style="margin-top:12px"><button class="btn sm b-blue" type="submit">저장</button></div></form>`:""}</div>`;
+}
+ADM.pharmacy=()=>inqTab("pharmacy");ADM.franchise=()=>inqTab("franchise");
+ADM.qna=()=>{const list=D.faq.slice().sort((a,b)=>(a.answer?1:0)-(b.answer?1:0)||b.id-a.id);const sel=list.find(q=>q.id===S.admSel)||list[0];
+  return `<h2>Q&amp;A 답변</h2><div class="split"><div class="panel"><div class="tblwrap"><table class="board"><thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>상태</th></tr></thead><tbody>${list.map(q=>`<tr class="row" data-sel="${q.id}" style="${sel&&sel.id===q.id?"background:var(--skybg)":""}"><td>${q.id}</td><td>${q.secret?ic("lock",14)+" ":""}${esc(q.title)}${q.hidden?' <span class="st wait">숨김</span>':""}</td><td>${esc(q.name)}</td><td><span class="st ${q.answer?"ok":"wait"}">${q.answer?"답변 완료":"답변 대기"}</span></td></tr>`).join("")}</tbody></table></div></div>
+  ${sel?`<form class="panel" data-form="answer" data-id="${sel.id}"><h3 style="font-size:17px">${esc(sel.title)}</h3><p style="font-size:13px;color:var(--muted);margin:4px 0 8px">${esc(sel.name)} · ${sel.date}${sel.secret?" · 비밀글 (관리자는 열람 가능)":""}</p><div style="background:var(--bg);border-radius:12px;padding:12px;font-size:14px;white-space:pre-line">${esc(sel.body)}</div>
+  <div class="f" style="margin-top:12px"><label for="ans-who">답변자 (약사 실명 표시)</label><input class="field" id="ans-who" name="who" value="${esc(sel.answer?sel.answer.who:"메디타운 A점 [약사명] 약사")}"></div>
+  <div class="f" style="margin-top:10px"><label for="ans-text">답변 내용</label><textarea class="field" id="ans-text" name="text">${esc(sel.answer?sel.answer.text:"")}</textarea><span class="err" data-err="text"></span></div>
+  <div class="actions" style="margin-top:12px;justify-content:space-between"><button type="button" class="btn sm b-line" data-hideq="${sel.id}">${sel.hidden?"다시 보이기":"숨김 처리"}</button><button class="btn sm b-blue" type="submit">답변 저장</button></div></form>`:""}</div>`;};
+ADM.branches=()=>{const e=S.editBranch?branchBy(S.editBranch):null;
+  return `<h2>지점 관리</h2><div class="split"><div class="panel"><div class="tblwrap"><table class="board"><thead><tr><th>지점</th><th>주소</th><th>시설</th><th style="width:150px">관리</th></tr></thead><tbody>${D.branches.map(b=>`<tr><td><b>${esc(b.name)}</b></td><td>${esc(b.addr)}</td><td>${b.fac.map(f=>FAC[f]?FAC[f][1]:"").join(", ")}</td><td><div style="display:flex;gap:6px"><button type="button" class="btn sm b-line" data-editb="${b.id}">수정</button><button type="button" class="btn sm b-danger" data-delb="${b.id}">삭제</button></div></td></tr>`).join("")}</tbody></table></div><div id="delConfirm"></div></div>
+  <form class="panel" data-form="branchsave" data-id="${e?e.id:""}"><h3 style="font-size:17px;margin-bottom:10px">${e?esc(e.name)+" 수정":"새 지점 등록"}</h3>
+  ${[["name","지점명","예: D점"],["addr","주소","실제 사이트에서는 주소 입력 시 지도 좌표 자동 저장"],["tel","전화번호",""],["hours","영업시간",""],["park","주차 안내",""],["pharm","상주 약사",""]].map(([k,l,ph])=>`<div class="f" style="margin-bottom:8px"><label for="bf-${k}">${l}${k==="name"?" <i>*</i>":""}</label><input class="field" id="bf-${k}" name="${k}" value="${esc(e?e[k]:"")}" placeholder="${ph}"><span class="err" data-err="${k}"></span></div>`).join("")}
+  <div class="f"><span style="font-size:14px;font-weight:700;color:var(--deep)">시설</span><div style="display:flex;gap:12px;flex-wrap:wrap;font-size:14px">${Object.keys(FAC).map(k=>`<label style="display:flex;gap:6px;align-items:center"><input type="checkbox" name="fac" value="${k}" ${e&&e.fac.includes(k)?"checked":""}>${FAC[k][1]}</label>`).join("")}</div></div>
+  <div class="actions" style="margin-top:12px">${e?`<button type="button" class="btn sm b-line" data-editb="">새로 등록</button>`:""}<button class="btn sm b-blue" type="submit">${e?"수정 저장":"지점 등록"}</button></div></form></div>`;};
+ADM.newsAdm=()=>`<h2>소식 관리</h2><div class="split"><div class="panel"><div class="tblwrap"><table class="board"><thead><tr><th>분류</th><th>제목</th><th>작성일</th><th></th></tr></thead><tbody>${[...D.news].sort((a,b)=>b.date.localeCompare(a.date)).map(n=>`<tr><td>${n.cat}${n.pin?" · 고정":""}</td><td>${esc(n.title)}</td><td>${n.date}</td><td><button type="button" class="btn sm b-danger" data-deln="${n.id}">삭제</button></td></tr>`).join("")}</tbody></table></div></div>
+  <form class="panel" data-form="newssave"><h3 style="font-size:17px;margin-bottom:10px">새 소식 작성</h3><div class="f" style="margin-bottom:8px"><label for="nf-cat">분류</label><select class="field" id="nf-cat" name="cat"><option>공지</option><option>지점 소식</option><option>이벤트</option></select></div><div class="f" style="margin-bottom:8px"><label for="nf-title">제목 <i>*</i></label><input class="field" id="nf-title" name="title"><span class="err" data-err="title"></span></div><div class="f" style="margin-bottom:8px"><label for="nf-body">내용</label><textarea class="field" id="nf-body" name="body"></textarea></div><label style="display:flex;gap:8px;align-items:center;font-size:14px"><input type="checkbox" name="pin">상단 고정</label><div class="actions" style="margin-top:12px"><button class="btn sm b-blue" type="submit">등록</button></div></form></div>`;
+ADM.image=()=>`<h2>이미지 관리</h2><div class="panel"><h3 style="font-size:17px">홈 메인 비주얼</h3><p style="font-size:14px;color:var(--muted);margin:4px 0 12px">사진을 올리면 홈 첫 화면 오른쪽 사진이 바로 바뀝니다. 실제 사이트에서는 PC용 · 모바일용을 따로 올리고, 페이지마다 이미지 자리를 둡니다.</p>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start"><div class="ph" style="aspect-ratio:16/10;border-radius:16px;${D.hero?`background-image:url(${D.hero});color:transparent`:""}">${D.hero?"":"현재: 기본 이미지 자리"}</div>
+  <div style="display:flex;flex-direction:column;gap:10px"><label class="btn b-blue" for="heroFile" style="cursor:pointer">${ic("img",18)}사진 선택</label><input type="file" id="heroFile" accept="image/*" style="position:absolute;left:-9999px"><button type="button" class="btn b-line" data-herodel ${D.hero?"":"disabled"}>기본 이미지로 되돌리기</button><span style="font-size:13px;color:var(--muted)">JPG · PNG · WEBP, 자동으로 크기를 줄여 저장합니다.</span></div></div></div>`;
+
+/* ---------- router ---------- */
+const ROUTES=["home","brand","philosophy","branch","news","faq","ask","pharmacy","franchise","done","admin","privacy"];
+let nfTimer;
+function render(){
+  clearTimeout(nfTimer);
+  let r=(location.hash||"#home").slice(1)||"home";
+  const known=ROUTES.includes(r);
+  const html=known?V[r]():V.notfound();
+  const app=document.getElementById("app");app.innerHTML=html;fillKongs(app);
+  document.title=(known?{home:"메디타운",brand:"브랜드 소개",philosophy:"기업 철학",branch:"지점 안내",news:"소식",faq:"자주 묻는 질문",ask:"질문하기",pharmacy:"약국 문의",franchise:"가맹 상담 문의",done:"접수 완료",admin:"관리자",privacy:"개인정보 처리방침"}[r]+" · ":"")+"메디타운 시연 홈페이지";
+  const tab=document.getElementById("tabbar");
+  tab.innerHTML=[["home","home","홈"],["branch","pin","지점"],["news","bell","소식"],["faq","chat","Q&A"],["pharmacy","doc","문의"]].map(t=>`<a href="#${t[0]}" class="${(r===t[0]||(t[0]==="faq"&&r==="ask")||(t[0]==="pharmacy"&&r==="franchise"))?"on":""}">${ic(t[1],22)}${t[2]}</a>`).join("");
+  document.getElementById("megaBranches").innerHTML=D.branches.map(b=>`<a href="#branch" data-branch="${b.id}">${esc(b.name)}</a>`).join("");
+  if(!known){requestAnimationFrame(()=>{const b=document.getElementById("nfbar");if(b)b.style.width="100%";});nfTimer=setTimeout(()=>{if(!ROUTES.includes((location.hash||"#home").slice(1)))location.hash="home";},3000);}
+  closeMenu();
+}
+let lastRoute=null;
+window.addEventListener("hashchange",()=>{const r=(location.hash||"#home").slice(1);if(r!==lastRoute){S.newsId=null;S.faqOpen=null;S.admSel=null;if(r!=="branch")S.branchQ="";}lastRoute=r;render();window.scrollTo({top:0,behavior:"instant"});});
+
+/* ---------- menu ---------- */
+const hamb=document.getElementById("hamb"),mega=document.getElementById("mega"),wrapM=document.getElementById("menuWrap");
+function openMenu(){mega.hidden=false;hamb.setAttribute("aria-expanded","true");fillKongs(mega);}
+function closeMenu(){mega.hidden=true;hamb.setAttribute("aria-expanded","false");}
+let hoverMouse=false;
+hamb.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){hoverMouse=true;openMenu();}});
+wrapM.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse"){hoverMouse=false;closeMenu();}});
+hamb.addEventListener("click",()=>{if(hoverMouse){openMenu();return;}mega.hidden?openMenu():closeMenu();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu();});
+document.addEventListener("click",e=>{if(!mega.hidden&&!wrapM.contains(e.target))closeMenu();});
+
+/* ---------- demo helper ---------- */
+const dBtn=document.getElementById("demoBtn"),dCard=document.getElementById("demoCard");
+fillKongs(document.getElementById("demo"));
+dBtn.addEventListener("click",()=>{dCard.hidden=!dCard.hidden;dBtn.setAttribute("aria-expanded",String(!dCard.hidden));});
+document.getElementById("resetDemo").addEventListener("click",()=>{D=seed();save();S.unlocked={};S.selBranch=null;toast("시연 데이터를 처음 상태로 되돌렸어요");render();});
+
+/* ---------- interactions ---------- */
+document.addEventListener("pointerdown",e=>{const b=e.target.closest(".btn");if(!b||b.disabled)return;const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.4,s=document.createElement("span");s.className="rip";s.style.width=s.style.height=d+"px";s.style.left=(e.clientX-r.left)+"px";s.style.top=(e.clientY-r.top)+"px";b.appendChild(s);s.addEventListener("animationend",()=>s.remove());});
+
+let slideTimer=setInterval(()=>{if((location.hash||"#home")!=="#home"&&location.hash!=="")return;S.slide=((S.slide||0)+1)%HERO.length;setSlide();},6000);
+function setSlide(){const t=document.getElementById("heroTitle");if(!t)return;const h=HERO[S.slide];t.innerHTML=h[0];document.getElementById("heroSub").textContent=h[1];const b=document.getElementById("heroBtn");b.href=h[3];b.innerHTML=h[2]+" "+ic("arrow",18);document.querySelectorAll("[data-slide]").forEach((d,i)=>d.setAttribute("aria-current",String(i===S.slide)));}
+
+document.addEventListener("click",e=>{
+  const t=e.target;let el;
+  if((el=t.closest("[data-slide]"))){S.slide=+el.dataset.slide;setSlide();return;}
+  if((el=t.closest("[data-pick]"))){S.selBranch=el.dataset.pick;if((location.hash||"#home")==="#branch"){S.branchQ="";render();}else{location.hash="branch";}return;}
+  if((el=t.closest("[data-branch]"))){S.selBranch=el.dataset.branch;if(location.hash==="#branch"){e.preventDefault();render();}return;}
+  if(t.closest("[data-clearq]")){S.branchQ="";render();return;}
+  if((el=t.closest("[data-copy]"))){const v=el.dataset.copy;const done=()=>toast("전화번호를 복사했어요: "+v);if(navigator.clipboard)navigator.clipboard.writeText(v).then(done,()=>toast(v));else toast(v);return;}
+  if((el=t.closest("[data-news]"))){S.newsId=+el.dataset.news;if(location.hash!=="#news"){lastRoute="news";location.hash="news";}else render();return;}
+  if(t.closest("[data-newsback]")){S.newsId=null;render();return;}
+  if((el=t.closest("[data-newscat]"))){S.newsCat=el.dataset.newscat;render();return;}
+  if((el=t.closest("[data-faq]"))){S.faqOpen=+el.dataset.faq;lastRoute="faq";location.hash="faq";if(location.hash==="#faq")render();return;}
+  if((el=t.closest("[data-faqf]"))){S.faqF=el.dataset.faqf;S.faqOpen=null;render();return;}
+  if((el=t.closest("[data-faqrow]"))&&!t.closest("form")){const id=+el.dataset.faqrow;S.faqOpen=S.faqOpen===id?null:id;render();const f=document.getElementById("pw-"+id);if(f)f.focus();return;}
+  if((el=t.closest("[data-atab]"))){S.adminTab=el.dataset.atab;S.admSel=null;S.editBranch=null;render();return;}
+  if(t.closest("[data-logout]")){S.admin=false;try{sessionStorage.removeItem("mt-admin");}catch(_){}render();return;}
+  if((el=t.closest("[data-goinq]"))){const i=D.inquiries.find(x=>x.id===el.dataset.goinq);S.adminTab=i.type;S.admSel=i.id;render();return;}
+  if((el=t.closest("[data-sel]"))){const v=el.dataset.sel;S.admSel=isNaN(+v)?v:+v;render();return;}
+  if((el=t.closest("[data-editb]"))){S.editBranch=el.dataset.editb||null;render();return;}
+  if((el=t.closest("[data-delb]"))){const b=branchBy(el.dataset.delb);document.getElementById("delConfirm").innerHTML=`<div class="note" style="margin:12px 0 0;background:#FFE8E5;color:var(--danger)">${esc(b.name)}을(를) 삭제할까요? <button type="button" class="btn sm b-danger" data-delbok="${b.id}" style="margin-left:auto">삭제</button><button type="button" class="btn sm b-line" data-delbno>취소</button></div>`;return;}
+  if(t.closest("[data-delbno]")){document.getElementById("delConfirm").innerHTML="";return;}
+  if((el=t.closest("[data-delbok]"))){D.branches=D.branches.filter(b=>b.id!==el.dataset.delbok);save();toast("지점을 삭제했어요");render();return;}
+  if((el=t.closest("[data-deln]"))){D.news=D.news.filter(n=>n.id!==+el.dataset.deln);save();toast("소식을 삭제했어요");render();return;}
+  if((el=t.closest("[data-hideq]"))){const q=D.faq.find(x=>x.id===+el.dataset.hideq);q.hidden=!q.hidden;save();toast(q.hidden?"질문을 숨겼어요":"질문을 다시 보이게 했어요");render();return;}
+  if(t.closest("[data-herodel]")){D.hero=null;save();toast("기본 이미지로 되돌렸어요");render();return;}
+  if((el=t.closest("[data-copytable]"))){const list=D.inquiries.filter(i=>i.type===el.dataset.copytable);if(!list.length){toast("복사할 문의가 없어요");return;}const keys=["접수번호","접수일","상태",...Object.keys(list[0].f),"메모"];const tsv=[keys.join("\t"),...list.map(i=>[i.id,i.date,i.status,...Object.values(i.f),i.memo].map(v=>String(v).replace(/\s+/g," ")).join("\t"))].join("\n");if(navigator.clipboard)navigator.clipboard.writeText(tsv).then(()=>toast("표를 복사했어요. 엑셀에 붙여넣으세요"),()=>toast("복사하지 못했어요"));return;}
+});
+document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;const r=e.target.closest&&e.target.closest("tr.row");if(r&&!e.target.closest("form")){r.click();}});
+document.addEventListener("change",e=>{
+  if(e.target.id==="f-ask-secret"){const pw=document.getElementById("f-ask-pw");pw.disabled=!e.target.checked;}
+  if(e.target.id==="heroFile"&&e.target.files[0]){const file=e.target.files[0];if(!/^image\//.test(file.type)){toast("이미지 파일만 올릴 수 있어요");return;}const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const max=1400,sc=Math.min(1,max/img.width);const c=document.createElement("canvas");c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext("2d").drawImage(img,0,0,c.width,c.height);D.hero=c.toDataURL("image/jpeg",.82);save();toast("메인 비주얼을 바꿨어요. 홈에서 확인해 보세요");render();};img.src=rd.result;};rd.readAsDataURL(file);}
+});
+
+/* ---------- forms ---------- */
+function setErr(form,k,m){const s=form.querySelector(`[data-err="${k}"]`);if(s)s.textContent=m||"";}
+const nid=(p)=>{const d=new Date();return p+"-"+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(D.inquiries.length+1).padStart(3,"0");};
+document.addEventListener("submit",e=>{
+  const f=e.target;if(!f.dataset.form)return;e.preventDefault();
+  const fd=new FormData(f),g=k=>(fd.get(k)||"").toString().trim();
+  f.querySelectorAll(".err").forEach(x=>x.textContent="");
+  const kind=f.dataset.form;
+  if(kind==="branchq"){S.branchQ=g("q");const res=D.branches.filter(x=>S.branchQ&&(x.name.includes(S.branchQ)||x.addr.includes(S.branchQ)));if(res.length)S.selBranch=res[0].id;render();return;}
+  if(kind==="unlock"){const q=D.faq.find(x=>x.id===+f.dataset.id);if(g("pw")===q.pw){S.unlocked[q.id]=true;render();}else setErr(f,"pw","비밀번호가 맞지 않아요. 다시 입력해 주세요.");return;}
+  if(kind==="login"){if(g("pw")==="meditown"){S.admin=true;try{sessionStorage.setItem("mt-admin","1");}catch(_){}render();}else setErr(f,"pw","비밀번호가 맞지 않아요. 시연용 비밀번호는 meditown 입니다.");return;}
+  if(kind==="inqsave"){const i=D.inquiries.find(x=>x.id===f.dataset.id);i.status=g("status");i.memo=g("memo");save();toast("저장했어요");render();return;}
+  if(kind==="answer"){if(!g("text")){setErr(f,"text","답변 내용을 입력해 주세요.");return;}const q=D.faq.find(x=>x.id===+f.dataset.id);q.answer={who:g("who")||"메디타운 담당자",date:today(),text:g("text")};save();toast("답변을 저장했어요. 자주 묻는 질문에 바로 보입니다");render();return;}
+  if(kind==="branchsave"){if(!g("name")){setErr(f,"name","지점명을 입력해 주세요.");return;}const fac=fd.getAll("fac");const id=f.dataset.id;const obj={name:g("name"),addr:g("addr")||"[주소]",tel:g("tel")||"[전화번호]",hours:g("hours")||"[영업시간]",park:g("park")||"[주차 안내]",pharm:g("pharm")||"[약사명]",fac};if(id){Object.assign(branchBy(id),obj);toast("지점 정보를 수정했어요");}else{D.branches.push({id:"b"+Date.now(),x:15+Math.round(Math.random()*70),y:15+Math.round(Math.random()*55),...obj});toast("지점을 등록했어요. 지점 안내에 바로 보입니다");}S.editBranch=null;save();render();return;}
+  if(kind==="newssave"){if(!g("title")){setErr(f,"title","제목을 입력해 주세요.");return;}D.news.push({id:Math.max(0,...D.news.map(n=>n.id))+1,cat:g("cat"),title:g("title"),body:g("body")||"[내용]",date:today(),pin:!!fd.get("pin")});save();toast("소식을 등록했어요");render();return;}
+  // public forms
+  const fields=kind==="ask"?[{k:"name",l:"이름",req:1},{k:"title",l:"제목",req:1},{k:"body",l:"내용",req:1}]:kind==="pharmacy"?PH_FIELDS:FR_FIELDS;
+  let bad=false;
+  fields.forEach(x=>{if(x.req&&!g(x.k)){setErr(f,x.k,x.l+"을(를) 입력해 주세요.");bad=true;}});
+  const tel=g(kind==="ask"?"phone":"연락처");if(tel&&!/^[0-9\-+ ]{9,}$/.test(tel)){setErr(f,kind==="ask"?"phone":"연락처","전화번호 형식을 확인해 주세요. 예: 010-1234-5678");bad=true;}
+  const em=g("이메일");if(em&&!/^\S+@\S+\.\S+$/.test(em)){setErr(f,"이메일","이메일 형식을 확인해 주세요.");bad=true;}
+  if(kind==="ask"&&fd.get("secret")&&g("pw").length<4){setErr(f,"pw","비밀번호를 4자리 이상 입력해 주세요.");bad=true;}
+  if(!fd.get("agree")){setErr(f,"agree","개인정보 수집 · 이용에 동의해야 접수할 수 있어요.");bad=true;}
+  if(bad){const first=[...f.querySelectorAll(".err")].find(x=>x.textContent);if(first)first.previousElementSibling&&first.previousElementSibling.focus&&first.previousElementSibling.focus();toast("빠진 항목을 확인해 주세요");return;}
+  if(kind==="ask"){const id=Math.max(0,...D.faq.map(q=>q.id))+1;const secret=!!fd.get("secret");D.faq.unshift({id,name:g("name"),title:g("title"),body:g("body"),secret,pw:g("pw"),date:today(),answer:null});if(secret)S.unlocked[id]=true;save();
+    S.done={title:"질문이 등록되었습니다",msg:"약사와 담당자가 확인 후 답변해 드립니다."+(secret?" 비밀글은 정하신 비밀번호로 확인할 수 있어요.":""),rows:[["글 번호",String(id)],["제목",g("title")],["공개 설정",secret?"비밀글":"공개"]],next:["자주 묻는 질문 보기","#faq"]};}
+  else{const obj={};fields.forEach(x=>obj[x.k]=g(x.k)||"-");const no=nid(kind==="pharmacy"?"P":"F");D.inquiries.push({id:no,type:kind,date:today(),status:"신규",memo:"",f:obj});save();
+    S.done={title:kind==="pharmacy"?"약국 문의가<br>접수되었습니다":"가맹 상담 신청이<br>접수되었습니다",msg:"남겨주신 연락처로 담당자가 영업일 기준 2일 안에 연락드립니다.",rows:[["접수 번호",no],["접수일",today()],[kind==="pharmacy"?"약국명":"희망 지역",kind==="pharmacy"?obj["약국명"]:obj["희망 지역"]]],next:kind==="pharmacy"?["가맹 상담도 보기","#franchise"]:["지점 둘러보기","#branch"]};}
+  lastRoute="done";location.hash="done";
+});
+
+lastRoute=(location.hash||"#home").slice(1);
+render();
+})();
+</script>
+
+</body></html>
