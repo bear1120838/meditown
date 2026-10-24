@@ -18,21 +18,21 @@ const slides = [
     title: "건강한 일상을 잇는\n메디타운",
     description: "가까운 곳에서 편리하게 만나는 건강 관리와 약국 안내 서비스",
     button: "가까운 지점 찾기",
-    href: "#branches",
+    href: "/branches",
   },
   {
     eyebrow: "CARE THAT CONNECTS",
     title: "사람과 건강을\n가깝게 연결합니다",
     description: "이용자에게 필요한 정보를 쉽고 정확하게 안내합니다.",
     button: "메디타운 소개",
-    href: "#about",
+    href: "/about",
   },
   {
     eyebrow: "GROW WITH MEDITOWN",
     title: "함께 만드는\n더 나은 건강 경험",
     description: "메디타운과 함께할 약국 및 가맹 파트너를 기다립니다.",
     button: "가맹 상담 문의",
-    href: "#contact",
+    href: "/contact",
   },
 ];
 
@@ -131,19 +131,19 @@ export default function HomePage() {
             <span><span className="mt-logo-name">MEDITOWN</span><span className="mt-logo-sub">HEALTHCARE NETWORK</span></span>
           </a>
           <nav className="mt-nav" aria-label="주 메뉴">
-            <a href="#about">메디타운 소개</a>
-            <a href="#branches">지점 안내</a>
-            <a href="#news">소식</a>
-            <a href="#contact">고객 문의</a>
-            <a className="mt-btn" href="#contact">가맹 상담 문의</a>
+            <a href="/brand">메디타운 소개</a>
+            <a href="/branches">지점 안내</a>
+            <a href="/news">소식</a>
+            <a href="/contact">고객 문의</a>
+            <a className="mt-btn" href="/contact">가맹 상담 문의</a>
           </nav>
           <button className="mt-menu-button" type="button" aria-label="메뉴 열기" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "×" : "☰"}</button>
         </div>
         {menuOpen && <nav className="mt-wrap mt-mobile-menu" aria-label="모바일 메뉴">
-          <a href="#about" onClick={() => setMenuOpen(false)}>메디타운 소개</a>
-          <a href="#branches" onClick={() => setMenuOpen(false)}>지점 안내</a>
-          <a href="#news" onClick={() => setMenuOpen(false)}>소식</a>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>고객 문의</a>
+          <a href="/brand" onClick={() => setMenuOpen(false)}>메디타운 소개</a>
+          <a href="/branches" onClick={() => setMenuOpen(false)}>지점 안내</a>
+          <a href="/news" onClick={() => setMenuOpen(false)}>소식</a>
+          <a href="/contact" onClick={() => setMenuOpen(false)}>고객 문의</a>
         </nav>}
       </header>
 
@@ -155,7 +155,7 @@ export default function HomePage() {
             <p>{slide.description}</p>
             <div className="mt-hero-actions">
               <a className="mt-btn" href={slide.href}>{slide.button} <span aria-hidden="true">→</span></a>
-              <a className="mt-btn mt-btn-outline" href="#about">메디타운 알아보기</a>
+              <a className="mt-btn mt-btn-outline" href="/about">메디타운 알아보기</a>
             </div>
             <div className="mt-hero-dots" aria-label="메인 화면 선택">
               {slides.map((item, index) => <button key={item.eyebrow} className={`mt-dot ${index === slideIndex ? "active" : ""}`} type="button" aria-label={`${index + 1}번 화면`} aria-current={index === slideIndex} onClick={() => setSlideIndex(index)} />)}
@@ -180,7 +180,7 @@ export default function HomePage() {
             {branches.map((item) => <article className="mt-feature" key={item.name}>
               <div className="mt-feature-icon" aria-hidden="true">{item.icon}</div>
               <h3>{item.name}</h3><p>{item.description}</p>
-              <a href="#contact" style={{ display: "inline-flex", marginTop: 18, color: colors.blue, fontSize: 14, fontWeight: 800 }}>자세히 보기 <span style={{ marginLeft: 7 }}>→</span></a>
+              <a href="/contact" style={{ display: "inline-flex", marginTop: 18, color: colors.blue, fontSize: 14, fontWeight: 800 }}>자세히 보기 <span style={{ marginLeft: 7 }}>→</span></a>
             </article>)}
           </div>
         </div>
@@ -199,6 +199,21 @@ export default function HomePage() {
               <div className="mt-value"><b>접근성</b><span>필요한 정보를 편리하게 확인</span></div>
               <div className="mt-value"><b>연결</b><span>고객과 파트너를 이어주는 서비스</span></div>
             </div>
+             <a
+              href="/brand"
+              style={{
+                display: "inline-block",
+                marginTop: "24px",
+                padding: "12px 24px",
+                background: colors.deep,
+                color: "#ffffff",
+                borderRadius: "8px",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              회사 소개 자세히 보기 →
+            </a>
           </div>
         </div>
       </section>
@@ -220,7 +235,7 @@ export default function HomePage() {
         <div className="mt-wrap">
           <div className="mt-cta">
             <div><h2>메디타운과 함께하고 싶으신가요?</h2><p>약국 문의 및 가맹 상담을 위한 연락처와 신청 양식을 이 영역에 연결할 수 있습니다.</p></div>
-            <a className="mt-btn" href="#branches">지점 안내 보기 <span aria-hidden="true">→</span></a>
+            <a className="mt-btn" href="/branches">지점 안내 보기 <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </section>
