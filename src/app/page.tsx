@@ -1,6 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function createButtonRipple(event: React.MouseEvent<HTMLElement>) {
+  const button = event.currentTarget;
+  const rect = button.getBoundingClientRect();
+
+  const ripple = document.createElement("span");
+  const size = Math.max(rect.width, rect.height) * 2;
+
+  ripple.style.cssText = `
+    position: absolute;
+    width: ${size}px;
+    height: ${size}px;
+    left: ${event.clientX - rect.left - size / 2}px;
+    top: ${event.clientY - rect.top - size / 2}px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: buttonRipple 0.65s ease-out forwards;
+    pointer-events: none;
+    z-index: 0;
+  `;
+
+  button.appendChild(ripple);
+
+  ripple.addEventListener("animationend", () => {
+    ripple.remove();
+  });
+}
 
 const colors = {
   blue: "#1E90FF",
@@ -14,9 +42,9 @@ const colors = {
 
 const slides = [
   {
-    eyebrow: "HEALTHCARE, CLOSER TO YOU",
-    title: "건강한 일상을 잇는\n메디타운",
-    description: "가까운 곳에서 편리하게 만나는 건강 관리와 약국 안내 서비스",
+    eyebrow: "Healthcare & Wellness Retail Complex, CLOSER TO YOU",
+    title: "복합 헬스케어 리테일 \n플랫폼, 메디타운",
+    description: "가까운 곳에서 편리하게 만나는 우리 가족의 건강 관리 파트너",
     button: "가까운 지점 찾기",
     href: "/branches",
   },
@@ -45,6 +73,18 @@ const branches = [
 export default function HomePage() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [selectedNews, setSelectedNews] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setImageIndex((current) => (current + 1) % 5);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, []);
   const slide = slides[slideIndex];
 
   return (
@@ -66,7 +106,8 @@ export default function HomePage() {
         .mt-nav { display: flex; align-items: center; gap: 27px; color: ${colors.deep}; font-size: 14px; font-weight: 700; }
         .mt-nav a:hover { color: ${colors.blue}; }
         .mt-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 19px; border: 0; border-radius: 12px; background: ${colors.blue}; color: white; font-size: 14px; font-weight: 800; cursor: pointer; transition: transform .18s, box-shadow .18s; }
-        .mt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,144,255,.22); }
+        .mt-btn:hover { transform: translateY(-2px);  box-shadow: 0 8px 20px rgba(30,144,255,.22); color: white; }
+        .mt-hero-actions .mt-btn span {  color: inherit;  opacity: 1;  visibility: visible; }
         .mt-btn-outline { background: white; color: ${colors.deep}; box-shadow: inset 0 0 0 1px ${colors.line}; }
         .mt-menu-button { display: none; width: 44px; height: 44px; border: 1px solid ${colors.line}; border-radius: 12px; background: white; color: ${colors.deep}; font-size: 23px; cursor: pointer; }
         .mt-mobile-menu { display: none; padding: 0 0 16px; }
@@ -81,7 +122,24 @@ export default function HomePage() {
         .mt-dot.active { width: 28px; background: ${colors.blue}; }
         .mt-visual { position: relative; display: grid; place-items: center; min-height: 350px; }
         .mt-orb { position: absolute; width: min(360px, 85%); aspect-ratio: 1; border-radius: 43% 57% 58% 42% / 44% 44% 56% 56%; background: linear-gradient(145deg, #C8E9FF, #E8F9E8); transform: rotate(-8deg); }
-        .mt-card-visual { position: relative; display: grid; place-items: center; width: min(320px, 78%); aspect-ratio: 1 / .86; border: 1px solid rgba(255,255,255,.9); border-radius: 30px; background: rgba(255,255,255,.82); box-shadow: 0 24px 60px rgba(0,51,102,.12); }
+        .mt-card-visual { position: relative; display: grid; place-items: center; width: min(320px, 78%); aspect-ratio: 1 / .86; border: 1px solid rgba(255,255,255,.9); border-radius: 30px; background: rgba(255,255,255,.82); box-shadow: 0 24px 60px rgba(0,51,102,.12); animation: cardGlow 4s ease-in-out infinite; }
+        .mt-card-visual img { animation: imageFade 0.8s ease-in-out;}
+            @keyframes imageFade {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
+            @keyframes cardGlow {
+              0%, 100% {
+                box-shadow: 0 20px 45px rgba(0, 51, 102, 0.10);
+              }
+              50% {
+                box-shadow: 0 30px 75px rgba(0, 102, 180, 0.35);
+              }
+            }
         .mt-cross { display: grid; place-items: center; width: 118px; height: 118px; border-radius: 32px; background: ${colors.blue}; color: white; font-size: 86px; font-weight: 400; line-height: 1; box-shadow: 0 15px 30px rgba(30,144,255,.25); }
         .mt-float-label { position: absolute; padding: 12px 16px; border: 1px solid ${colors.line}; border-radius: 14px; background: white; color: ${colors.deep}; font-size: 13px; font-weight: 800; box-shadow: 0 10px 28px rgba(0,51,102,.09); }
         .mt-float-label.one { top: 13%; left: 0; } .mt-float-label.two { right: 0; bottom: 13%; }
@@ -92,18 +150,25 @@ export default function HomePage() {
         .mt-section-head p { max-width: 480px; margin: 0; color: ${colors.muted}; line-height: 1.8; }
         .mt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
         .mt-feature { padding: 27px; border: 1px solid ${colors.line}; border-radius: 20px; background: white; transition: transform .18s, box-shadow .18s; }
-        .mt-feature:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,51,102,.08); }
-        .mt-feature-icon { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 21px; border-radius: 16px; background: #EAF6FF; color: ${colors.blue}; font-size: 29px; font-weight: 900; }
-        .mt-feature h3 { margin: 0 0 9px; color: ${colors.deep}; font-size: 19px; }
-        .mt-feature p { margin: 0; color: ${colors.muted}; font-size: 14px; line-height: 1.8; }
+        .mt-feature:hover {  transform: translateY(-6px);  box-shadow: 0 18px 40px rgba(0, 51, 102, 0.12);  border-color: #c5e2f5; }
+        .mt-feature.is-selected {  background: #eaf6ff;  border-color: #75b7e5;  box-shadow: 0 8px 24px rgba(0, 86, 168, 0.14);}
+        .mt-feature-icon {  display: grid;  place-items: center;  width: 56px;  height: 56px;  margin-bottom: 21px;  border-radius: 18px;  background: linear-gradient(145deg, #EAF6FF, #D8ECFF);  color: ${colors.blue};  font-size: 30px;  font-weight: 900;  box-shadow: 0 5px 14px rgba(30, 144, 255, 0.10); transition: transform 0.25s ease, box-shadow 0.25s ease;}
+        .mt-feature h3 {  margin: 0 0 12px;  color: ${colors.deep};  font-size: 20px;  font-weight: 800;  line-height: 1.5;  letter-spacing: -0.4px;}
+        .mt-feature p { margin: 0; color: ${colors.muted}; font-size: 15px; line-height: 1.9; letter-spacing: -0.2px;}
         .mt-about { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 55px; }
-        .mt-about-visual { display: grid; place-items: center; min-height: 300px; border-radius: 26px; background: linear-gradient(145deg, #E6F5FF, #EAFBEA); }
+        .mt-about-visual {  display: grid;  place-items: center;  min-height: 300px;  border-radius: 26px;  background: linear-gradient(145deg, #E6F5FF, #EAFBEA);  box-shadow: 0 14px 35px rgba(0, 51, 102, 0.08); }
         .mt-about-symbol { display: grid; place-items: center; width: 150px; height: 150px; border-radius: 42px; background: white; color: ${colors.blue}; font-size: 100px; box-shadow: 0 15px 35px rgba(0,51,102,.09); }
-        .mt-about-copy p { color: ${colors.muted}; line-height: 1.95; }
+        .mt-about-copy p {   margin: 0 0 16px;  color: ${colors.muted};  font-size: 15px;  line-height: 1.95;  letter-spacing: -0.2px; }
         .mt-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 24px; }
-        .mt-value { padding: 16px; border-radius: 14px; background: ${colors.pale}; }
-        .mt-value b { display: block; color: ${colors.deep}; font-size: 15px; }
-        .mt-value span { display: block; margin-top: 6px; color: ${colors.muted}; font-size: 12px; line-height: 1.6; }
+        .mt-value {  padding: 18px;  border: 1px solid ${colors.line};  border-radius: 16px;  background: ${colors.pale};  transition: transform 0.25s ease, box-shadow 0.25s ease;  }
+        .mt-value:hover {   transform: translateY(-3px);  box-shadow: 0 8px 20px rgba(0, 51, 102, 0.08);  }
+        .mt-value.is-selected {  background: #eaf6ff;  border: 1px solid #75b7e5;  box-shadow: 0 8px 24px rgba(0, 86, 168, 0.14); }
+        .mt-value.is-selected b {  color: #075da8; }
+        .mt-feature.is-selected { background: #eaf6ff; border-color: #75b7e5; box-shadow: 0 8px 24px rgba(0, 86, 168, 0.14); }
+        .mt-feature.is-selected h3 { color: #075da8; }
+        .mt-feature.is-selected .mt-feature-icon { background: linear-gradient(145deg, #d6edff, #b9dcff); color: #075da8; box-shadow: 0 6px 16px rgba(0, 86, 168, 0.16); }
+        .mt-value b {  display: block;  color: ${colors.deep};  font-size: 16px;  font-weight: 800;  line-height: 1.5;  }
+        .mt-value span {   display: block;  margin-top: 8px;  color: ${colors.muted};  font-size: 13px;   line-height: 1.7;  }
         .mt-cta { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 36px 40px; border-radius: 24px; background: ${colors.deep}; color: white; }
         .mt-cta h2 { color: white; font-size: 29px; }
         .mt-cta p { margin: 10px 0 0; color: #D7E7F5; line-height: 1.8; }
@@ -135,7 +200,7 @@ export default function HomePage() {
             <a href="/branches">지점 안내</a>
             <a href="/news">소식</a>
             <a href="/contact">고객 문의</a>
-            <a className="mt-btn" href="/contact">가맹 상담 문의</a>
+            <a className="mt-btn"  href="/contact"  onClick={createButtonRipple}>  <span className="mt-btn-label">가맹 상담 문의</span></a>
           </nav>
           <button className="mt-menu-button" type="button" aria-label="메뉴 열기" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "×" : "☰"}</button>
         </div>
@@ -146,7 +211,22 @@ export default function HomePage() {
           <a href="/contact" onClick={() => setMenuOpen(false)}>고객 문의</a>
         </nav>}
       </header>
-
+      <div className="mt-top-banner">
+        <img
+          src="/main_meditown.png"
+          alt="메디타운"
+        />
+        <div className="mt-bubbles" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
       <section className="mt-hero" id="home">
         <div className="mt-wrap mt-hero-inner">
           <div className="mt-hero-copy">
@@ -154,19 +234,40 @@ export default function HomePage() {
             <h1>{slide.title}</h1>
             <p>{slide.description}</p>
             <div className="mt-hero-actions">
-              <a className="mt-btn" href={slide.href}>{slide.button} <span aria-hidden="true">→</span></a>
-              <a className="mt-btn mt-btn-outline" href="/about">메디타운 알아보기</a>
+              <a className="mt-btn"  href={slide.href}  onClick={createButtonRipple}>
+              <span className="mt-btn-label">{slide.button} <span aria-hidden="true">→</span>  </span> </a>
+              <a className="mt-btn mt-btn-outline"  href="/about"  onClick={createButtonRipple}>  <span className="mt-btn-label">메디타운 알아보기</span></a>
             </div>
             <div className="mt-hero-dots" aria-label="메인 화면 선택">
               {slides.map((item, index) => <button key={item.eyebrow} className={`mt-dot ${index === slideIndex ? "active" : ""}`} type="button" aria-label={`${index + 1}번 화면`} aria-current={index === slideIndex} onClick={() => setSlideIndex(index)} />)}
             </div>
           </div>
           <div className="mt-visual" aria-label="메디타운을 상징하는 그래픽">
-            <div className="mt-orb" />
-            <div className="mt-card-visual"><div className="mt-cross">＋</div></div>
-            <div className="mt-float-label one">✓ 가까운 건강 파트너</div>
-            <div className="mt-float-label two">＋ 건강한 일상 연결</div>
+          <div className="mt-orb" />
+
+          <div className="mt-card-visual">
+            <img
+              key={imageIndex}
+              src={[
+                "/1_Meditown.png",
+                "/2_Pharmacy.png",
+                "/3_Beauty.png",
+                "/4_Health.png",
+                "/5_Lifestyle.png",
+              ][imageIndex]}
+              alt="메디타운 상징 이미지"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
           </div>
+
+          <div className="mt-float-label one">✓ 가까운 건강 파트너</div>
+          <div className="mt-float-label two">＋ 건강한 일상 연결</div>
+        </div>
         </div>
       </section>
 
@@ -177,7 +278,7 @@ export default function HomePage() {
             <p>메디타운 이용에 필요한 지점 정보와 약국 안내를 쉽고 편리하게 확인할 수 있도록 돕습니다.</p>
           </div>
           <div className="mt-grid">
-            {branches.map((item) => <article className="mt-feature" key={item.name}>
+            {branches.map((item) => <article  className={`mt-feature ${selectedCard === item.name ? "is-selected" : ""}`}  key={item.name}  onClick={() => setSelectedCard(item.name)} >
               <div className="mt-feature-icon" aria-hidden="true">{item.icon}</div>
               <h3>{item.name}</h3><p>{item.description}</p>
               <a href="/contact" style={{ display: "inline-flex", marginTop: 18, color: colors.blue, fontSize: 14, fontWeight: 800 }}>자세히 보기 <span style={{ marginLeft: 7 }}>→</span></a>
@@ -185,19 +286,30 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       <section className="mt-section pale" id="about">
         <div className="mt-wrap mt-about">
-          <div className="mt-about-visual"><div className="mt-about-symbol">＋</div></div>
+          <div className="mt-about-visual">
+            <img
+              src="/meditown-building.png"
+              alt="메디타운 건물 전경"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "24px",
+                display: "block",
+              }}
+            />
+          </div>
           <div className="mt-about-copy">
             <div className="mt-eyebrow">ABOUT MEDITOWN</div>
             <h2 style={{ margin: "10px 0 16px", color: colors.deep, fontSize: "clamp(28px, 3vw, 38px)", letterSpacing: "-.04em" }}>건강한 일상에 가까이,<br />신뢰할 수 있는 안내를</h2>
             <p>메디타운은 고객이 필요한 건강 관련 정보를 보다 쉽게 확인하고, 가까운 약국 및 지점과 연결될 수 있도록 돕는 서비스를 지향합니다.</p>
             <p>이 페이지는 홈페이지 기본 화면입니다. 회사 소개, 운영 지점, 실제 서비스와 연락처 등은 확정된 회사 자료를 받아 정확하게 반영할 수 있습니다.</p>
             <div className="mt-values">
-              <div className="mt-value"><b>신뢰</b><span>정확하고 이해하기 쉬운 정보</span></div>
-              <div className="mt-value"><b>접근성</b><span>필요한 정보를 편리하게 확인</span></div>
-              <div className="mt-value"><b>연결</b><span>고객과 파트너를 이어주는 서비스</span></div>
+              <div className={`mt-value ${selectedValue === "신뢰" ? "is-selected" : ""}`}  onClick={() => setSelectedValue("신뢰")} > <b>신뢰</b> <span>정확하고 이해하기 쉬운 정보</span> </div>
+              <div className={`mt-value ${selectedValue === "접근성" ? "is-selected" : ""}`}  onClick={() => setSelectedValue("접근성")} > <b>접근성</b> <span>필요한 정보를 편리하게 확인</span> </div>
+              <div className={`mt-value ${selectedValue === "연결" ? "is-selected" : ""}`}  onClick={() => setSelectedValue("연결")} > <b>연결</b>  <span>고객과 파트너를 이어주는 서비스</span> </div>
             </div>
              <a
               href="/brand"
@@ -224,7 +336,7 @@ export default function HomePage() {
             <div><div className="mt-eyebrow">NEWS & NOTICE</div><h2>메디타운 소식</h2></div>
             <p>공지사항과 새로운 소식을 이 영역에 게시할 수 있습니다.</p>
           </div>
-          <div className="mt-feature" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>
+          <div className={`mt-feature ${selectedNews ? "is-selected" : ""}`}  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}  onClick={() => setSelectedNews((current) => !current)} >
             <div><span className="mt-eyebrow">NOTICE</span><h3 style={{ marginTop: 9 }}>새로운 소식이 준비 중입니다.</h3><p>공식 공지와 이벤트 정보를 추후 이곳에서 확인할 수 있습니다.</p></div>
             <span aria-hidden="true" style={{ color: colors.blue, fontSize: 36 }}>→</span>
           </div>
@@ -235,7 +347,7 @@ export default function HomePage() {
         <div className="mt-wrap">
           <div className="mt-cta">
             <div><h2>메디타운과 함께하고 싶으신가요?</h2><p>약국 문의 및 가맹 상담을 위한 연락처와 신청 양식을 이 영역에 연결할 수 있습니다.</p></div>
-            <a className="mt-btn" href="/branches">지점 안내 보기 <span aria-hidden="true">→</span></a>
+            <a className="mt-btn"  href="/branches"  onClick={createButtonRipple}>  <span className="mt-btn-label">    지점 안내 보기 <span aria-hidden="true">→</span> </span></a>
           </div>
         </div>
       </section>

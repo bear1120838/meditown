@@ -25,3 +25,338 @@ textarea,
 select {
   font: inherit;
 }
+
+
+/* 메인 화면 제목 */
+.mt-hero-copy h1 {
+  font-size: clamp(36px, 4.3vw, 54px);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -1.5px;
+  word-break: keep-all;
+}
+
+/* 메인 화면 설명 문구 */
+.mt-hero-copy p {
+  font-size: 17px;
+  line-height: 1.8;
+  letter-spacing: -0.3px;
+  color: #526b85;
+  margin-top: 18px;
+  max-width: 560px;
+  word-break: keep-all;
+}
+
+
+/* 모바일 메인 화면 개선 */
+@media (max-width: 600px) {
+  .mt-hero-copy h1 {
+    font-size: 24px;
+    line-height: 1.35;
+    letter-spacing: -1px;
+  }
+
+  .mt-hero-copy p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+}
+
+
+/* 모바일 이미지 카드 표시 개선 */
+@media (max-width: 600px) {
+  .mt-card-visual {
+    width: min(280px, 85%);
+    margin: 24px auto;
+  }
+
+  .mt-card-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+
+.mt-top-banner {
+  width: 100%;
+  text-align: center;
+  background: #ffffff;
+  line-height: 0;
+}
+
+.mt-top-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  margin: 0 auto;
+}
+
+.mt-top-banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.mt-bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mt-bubbles span {
+  position: absolute;
+  bottom: -40px;
+  width: 50px;
+  height: 50px;
+  
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: rgba(150, 225, 255, 0.3);
+
+  box-shadow:
+    inset 3px 3px 6px rgba(255, 255, 255, 0.7),
+    0 0 8px rgba(150, 225, 255, 0.25);
+  animation: bubbleFloat 22s linear infinite;
+}
+
+
+.mt-bubbles span:nth-child(1) {
+  left: 8%;
+  animation-duration: 8s;
+  width: 10px;
+  height: 10px;
+}
+
+.mt-bubbles span:nth-child(2) {
+  left: 22%;
+  animation-duration: 11s;
+  animation-delay: 2s;
+  width: 18px;
+  height: 18px;
+}
+
+.mt-bubbles span:nth-child(3) {
+  left: 38%;
+  animation-duration: 9s;
+  animation-delay: 1s;
+}
+
+.mt-bubbles span:nth-child(4) {
+  left: 52%;
+  animation-duration: 12s;
+  animation-delay: 4s;
+  width: 9px;
+  height: 9px;
+}
+
+.mt-bubbles span:nth-child(5) {
+  left: 67%;
+  animation-duration: 10s;
+  animation-delay: 2s;
+  width: 20px;
+  height: 20px;
+}
+
+.mt-bubbles span:nth-child(6) {
+  left: 78%;
+  animation-duration: 8s;
+  animation-delay: 3s;
+}
+
+.mt-bubbles span:nth-child(7) {
+  left: 89%;
+  animation-duration: 11s;
+  animation-delay: 1s;
+  width: 12px;
+  height: 12px;
+}
+
+.mt-bubbles span:nth-child(8) {
+  left: 46%;
+  animation-duration: 13s;
+  animation-delay: 5s;
+  width: 16px;
+  height: 16px;
+}
+
+
+
+@keyframes bubbleFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.75);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  25% {
+    transform: translate3d(30px, -25vh, 0) scale(0.9);
+    opacity: 0.8;
+  }
+  45% {
+    transform: translate3d(-20px, -50vh, 0) scale(1);
+    opacity: 0.75;
+  }
+  65% {
+    transform: translate3d(35px, -75vh, 0) scale(1.1);
+    opacity: 0.65;
+  }
+  85% {
+    transform: translate3d(-15px, -100vh, 0) scale(1.15);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(10px, -120vh, 0) scale(1.2);
+    opacity: 0;
+  }
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-bubbles span {
+    animation: none;
+    display: none;
+  }
+}
+
+/* 배너 물방울에 파스텔 색상 적용 */
+.mt-bubbles span:nth-child(2) {
+  background: rgba(189, 242, 223, 0.45);
+}
+
+.mt-bubbles span:nth-child(3) {
+  background: rgba(228, 213, 255, 0.45);
+}
+
+.mt-bubbles span:nth-child(4) {
+  background: rgba(255, 220, 232, 0.45);
+}
+
+.mt-bubbles span:nth-child(5) {
+  background: rgba(189, 242, 223, 0.45);
+}
+
+.mt-bubbles span:nth-child(6) {
+  background: rgba(228, 213, 255, 0.45);
+}
+
+.mt-bubbles span:nth-child(7) {
+  background: rgba(255, 220, 232, 0.45);
+}
+
+
+/* 메인 화면 버튼 디자인 */
+.mt-hero-actions .mt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0878c9, #0056a8);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 86, 168, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+/* 메인 버튼 간격과 정렬 */
+.mt-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* 버튼에 마우스를 올렸을 때 */
+.mt-hero-actions .mt-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 86, 168, 0.28);
+}
+
+/* 보조 버튼 */
+.mt-hero-actions .mt-btn-outline {
+  background: #ffffff;
+  color: #075da8;
+  border: 1px solid #b8d6ed;
+  box-shadow: none;
+}
+
+/* 보조 버튼에 마우스를 올렸을 때 */
+.mt-hero-actions .mt-btn-outline:hover {
+  background: #edf7ff;
+  border-color: #75b7e5;
+  box-shadow: 0 6px 16px rgba(0, 86, 168, 0.10);
+}
+
+/* 메인 버튼 글자색 유지 */
+.mt-hero-actions .mt-btn,
+.mt-hero-actions .mt-btn:hover,
+.mt-hero-actions .mt-btn:focus,
+.mt-hero-actions .mt-btn:active {
+  color: #ffffff;
+}
+
+/* 보조 버튼은 파란색 글자 유지 */
+.mt-hero-actions .mt-btn-outline,
+.mt-hero-actions .mt-btn-outline:hover,
+.mt-hero-actions .mt-btn-outline:focus,
+.mt-hero-actions .mt-btn-outline:active {
+  color: #075da8;
+}
+
+/* 버튼 물결 효과의 기본 설정 */
+.mt-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 버튼에 마우스를 올리면 물결 효과 */
+.mt-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transform: translate(-50%, -50%);
+  transition: width 0.55s ease, height 0.55s ease;
+  pointer-events: none;
+}
+
+.mt-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* 버튼 클릭 시 물결 애니메이션 */
+@keyframes buttonRipple {
+  from {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* 물결 효과 위로 버튼 글씨 표시 */
+.mt-btn-label {
+  position: relative;
+  z-index: 1;
+}
